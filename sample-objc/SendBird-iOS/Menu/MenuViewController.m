@@ -123,7 +123,6 @@
     self.groupChannelCheckImageView.hidden = NO;
 
     self.groupChannelListViewController = [[GroupChannelListViewController alloc] init];
-    [self.groupChannelListViewController addDelegates];
     
     [self presentViewController:self.groupChannelListViewController animated:NO completion:^{
         self.groupChannelListViewController.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
