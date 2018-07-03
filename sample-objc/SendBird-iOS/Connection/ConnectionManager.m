@@ -8,7 +8,6 @@
 
 #import "ConnectionManager.h"
 #import <SendBirdSDK/SendBirdSDK.h>
-#import "NSBundle+SendBird.h"
 
 NSString *const ConnectionManagerErrorDomainConnection = @"com.sendbird.sample.connection";
 NSString *const ConnectionManagerErrorDomainUser = @"com.sendbird.sample.user";

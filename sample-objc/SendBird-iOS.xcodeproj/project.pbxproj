@@ -74,6 +74,7 @@
 		B4BD35B7B36280BBAF9B8122 /* Pods_SendBird_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382D6CF042D942EB06CD9F0C /* Pods_SendBird_iOS.framework */; };
 		C14D390C20809666002A5AA0 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = C14D390B20809666002A5AA0 /* Application.m */; };
 		C1A2ACD1202AC35A0066ED0E /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C1A2ACD0202AC35A0066ED0E /* ConnectionManager.m */; };
+		C1CACCF020EB627A00182571 /* SyncManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1CACCEF20EB627A00182571 /* SyncManager.framework */; };
 		CE806EFF1E7BA08800A8CB57 /* IncomingGeneralUrlPreviewMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE806EFD1E7BA08800A8CB57 /* IncomingGeneralUrlPreviewMessageTableViewCell.m */; };
 		CE806F001E7BA08800A8CB57 /* IncomingGeneralUrlPreviewMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE806EFE1E7BA08800A8CB57 /* IncomingGeneralUrlPreviewMessageTableViewCell.xib */; };
 		CE806F041E7BA0A100A8CB57 /* OutgoingGeneralUrlPreviewMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE806F021E7BA0A100A8CB57 /* OutgoingGeneralUrlPreviewMessageTableViewCell.m */; };
@@ -233,6 +234,7 @@
 		C14D390B20809666002A5AA0 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 		C1A2ACCF202AC35A0066ED0E /* ConnectionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionManager.h; sourceTree = "<group>"; };
 		C1A2ACD0202AC35A0066ED0E /* ConnectionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectionManager.m; sourceTree = "<group>"; };
+		C1CACCEF20EB627A00182571 /* SyncManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SyncManager.framework; path = Externals/SyncManager.framework; sourceTree = "<group>"; };
 		CE806EFC1E7BA08800A8CB57 /* IncomingGeneralUrlPreviewMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomingGeneralUrlPreviewMessageTableViewCell.h; sourceTree = "<group>"; };
 		CE806EFD1E7BA08800A8CB57 /* IncomingGeneralUrlPreviewMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomingGeneralUrlPreviewMessageTableViewCell.m; sourceTree = "<group>"; };
 		CE806EFE1E7BA08800A8CB57 /* IncomingGeneralUrlPreviewMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IncomingGeneralUrlPreviewMessageTableViewCell.xib; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1CACCF020EB627A00182571 /* SyncManager.framework in Frameworks */,
 				E2B401342022789600531A7A /* UserNotifications.framework in Frameworks */,
 				E23FFC571E6F7B4F007E2E2D /* Photos.framework in Frameworks */,
 				B4BD35B7B36280BBAF9B8122 /* Pods_SendBird_iOS.framework in Frameworks */,
@@ -526,6 +529,7 @@
 		7FBC9D59107481A6793B2D20 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C1CACCEF20EB627A00182571 /* SyncManager.framework */,
 				E2B401332022789600531A7A /* UserNotifications.framework */,
 				E23FFC561E6F7B4F007E2E2D /* Photos.framework */,
 				E23FFC541E6F796D007E2E2D /* AssetsLibrary.framework */,

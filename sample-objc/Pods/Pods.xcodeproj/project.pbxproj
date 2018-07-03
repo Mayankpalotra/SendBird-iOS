@@ -7,131 +7,129 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		002AB6FC31178751DD4383A67B75D95E /* HTMLTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5898C66F47363D9DDAE8F8ABBACD0C78 /* HTMLTreeWalker.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		02AB55564C811AA8E890D9C4BFB30A7B /* RSKInternalUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E9CC1253A1AB4859F3E7B3C8360CF74 /* RSKInternalUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		02C3B5C4CB40FFA9F7D5BF21A06E062F /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDFB320614E4480173B6372D1C5F405 /* MGSwipeButton.m */; };
 		03F9ED6006F1274DA84FD473C4E5F817 /* HTMLDocument+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A02870E7736DE6ADF1811B2767995E2 /* HTMLDocument+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		04B3E7F15CCA98E57F0A64EE7DF21398 /* NYTPhotoViewerCloseButtonXLandscape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 937C8B4EEA4C8E8DF3012AE5F4F604C2 /* NYTPhotoViewerCloseButtonXLandscape@3x.png */; };
 		04F3BBE71B24770E40CC66A993AD85D1 /* AFSecurityPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = AAF6F8FE0136BC726C6D509810889C8A /* AFSecurityPolicy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		06DCED56DE057DAA6B4C0300991A6183 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = FF542BDBECFBB305278F5A7CF0880B01 /* HTMLDocumentType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0700243B30EEFDCFFEEBC79DA02D6528 /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE0118B6815E259DE820A32581A9253 /* HTMLRange.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		07DC170C9DAB9B435B0D96BA7D3D9A57 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259A9A1BE5FB9179248C67E9DB176DE3 /* QuartzCore.framework */; };
+		07E5639C1B1FF1A5B9F0F708A3314D75 /* HTMLNodeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D70176D3C6D73FCB401B3737A8FE6EFD /* HTMLNodeFilter.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		08811CEE21D0C3135D948F9F40FADF71 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = EDCD280869C36109C049420360DAC61C /* HTMLOrderedDictionary.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		09EC74E4AFC1D5951D1F80094D06969A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658B70333C43EC7AF7FFBEE686D0710 /* Foundation.framework */; };
 		09F4B1EA481BDF659AC0200A0F8B3B7A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9694C898A5EABBDDB5B734D48A0B03 /* UIKit.framework */; };
 		0ACBBA158F4635FAE16AB5456ABADCA4 /* UIButton+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = F672DCC3FF8260AF6063E8AA4D1436AA /* UIButton+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B402C7A1D509199BB8CA1224226ED29 /* NYTScalingImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 80E84B8D3FEDF4F4B4C9B5D1017E6977 /* NYTScalingImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C0C5FA56E7114D2CF89247DC7DB2F64 /* NYTPhotoContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = E485E8D65D0FF32F31DBBF173DCD0335 /* NYTPhotoContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0C951B49609F3C28AD52E268F334E2FC /* NYTPhotosDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDECA798DBBD9921E317B11C2E3560E /* NYTPhotosDataSource.m */; };
-		0D166F60D1ABF48A02CE63D8C33548D9 /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE0118B6815E259DE820A32581A9253 /* HTMLRange.m */; };
-		0EBB45E9B07385B940C6A74AF62CAF88 /* HTMLTagToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2DC4F7DF346596D53F408D3AE92A0 /* HTMLTagToken.m */; };
+		0CECA05779F9E0373C2750E0AAF601D7 /* CSSPseudoClassSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC8D6A73D448EB05C8D2B19137F7CD /* CSSPseudoClassSelector.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		0DC0B21338D16FEE6E211D762C1B3B8E /* TTTAttributedLabel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B460B2FF8775069F871C1E074AF0F9 /* TTTAttributedLabel-dummy.m */; };
 		0F1EF6DA45F047D57F1F477C89CEE332 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658B70333C43EC7AF7FFBEE686D0710 /* Foundation.framework */; };
-		12AE254B80805E215A40412C7AD553EC /* CSSTypeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AA911B3225AA9108759AEC050AB84 /* CSSTypeSelector.m */; };
 		12D248CC6DD5635DCCD92A565376B101 /* HTMLTokenizerStates.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F740D428EE883207C5E643E03DCD11C /* HTMLTokenizerStates.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		13ADE84F672E4DF94AB419484FFAEAFA /* FLAnimatedImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A5CDE997B6E2572440DF536818EA6AED /* FLAnimatedImage-dummy.m */; };
+		13AEBF219F3339D30B1B3ED5B9FD0FC0 /* AFNetworking-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F1CC81DCC0B5B7889A1095A6F0CBC8 /* AFNetworking-dummy.m */; };
 		13B12ACCAA9A07CDE02637C10425DD9E /* CSSNthExpressionSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F9D79636D7F9E083DA87A99F81D558 /* CSSNthExpressionSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1491187E44076B9847D57500233F9257 /* HTMLListOfActiveFormattingElements.h in Headers */ = {isa = PBXBuildFile; fileRef = B214D2C4780EE31644AD3EC8310B4959 /* HTMLListOfActiveFormattingElements.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1594A2F4C5062A92154124AB7B1509C7 /* NSString+HTMLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 83396EFA352BAEFCA2D9D0AB51946FB6 /* NSString+HTMLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15F6265FCE0955CDB4967F7306407D67 /* UIWebView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = AC241BB165232238CBEED8406B448BEF /* UIWebView+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15F7E036F4B5CF6C067882D7AEE81D17 /* HTMLNodeIterator+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C1E9FEEBE3EB7B2CAC79C21EB3BFD06 /* HTMLNodeIterator+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		181A9C4C01FE49B42A1F01A506873F56 /* MGSwipeTableCell-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CB92FB236DDA5675C9EB1AF0A06BC55C /* MGSwipeTableCell-dummy.m */; };
-		1BBF07D075167145AC240AAA7DD0FE71 /* HTMLListOfActiveFormattingElements.m in Sources */ = {isa = PBXBuildFile; fileRef = F8103CE771403C91BDE5F004AE53A3A9 /* HTMLListOfActiveFormattingElements.m */; };
+		1619A23BDCCBE5C7F6035D72B6179E39 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A7459323BE424B334DBE5C82D0EE10 /* AFNetworkActivityIndicatorManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		16B72F73E8CF3ED099E5FADEC4C5C3B9 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BCCD2ECA76FDD230B52942271B8AD33 /* TTTAttributedLabel.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		1AD59E980FE9C21ADEF0B7A07129760C /* UIImage+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500257BC1E51F7E4838B45F901EFBE1 /* UIImage+RSKImageCropper.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		1BCC613A3BAD5C42DF6B617BC0A4A88E /* HTMLEOFToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 06FE56467C33793B92997B0C1B3D2B05 /* HTMLEOFToken.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1C43E9A84EB78F7460A3CC71D8FFB09B /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4578A858A1B01ABF90B1AFE624DD5 /* AFURLRequestSerialization.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		1C48AE92F8C30AD01F19C9FB251220EF /* NYTPhotosViewControllerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A63752B3C475620D71389EB4FABAD4 /* NYTPhotosViewControllerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1CDA9CF3831C4BE7AC9F922031EDB667 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 629B93F2D77B019E002398B87CEE1927 /* MGSwipeTableCell.m */; };
 		1D152239DF14B26C37A3F8AA57A9017F /* HTMLDOCTYPEToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 4824DA9228CE6FB86DF9823941713486 /* HTMLDOCTYPEToken.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1D4D99E8F476591E37D276F410351CFD /* HTMLCharacterToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8DA7A8D26B3D1CF2CD8AB9B1D68B09 /* HTMLCharacterToken.m */; };
-		1DCCC04D5C075AAA96B35409CC34CC19 /* HTMLMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DC2FE1FC878C1F084A3BEBB9B826B /* HTMLMarker.m */; };
-		1EC9974A21C01340359ACA8DDD863B27 /* RSKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48AA39DCFC6356D544C3302E3978AC2B /* RSKImageCropViewController.m */; };
 		1FA1055DF1D7922626B5B8FD310AFB4B /* NYTPhotoViewerCloseButtonXLandscape.png in Resources */ = {isa = PBXBuildFile; fileRef = BA15BDBA5AC8CC0ADF58402C878F3002 /* NYTPhotoViewerCloseButtonXLandscape.png */; };
-		1FAD0537EFC009657E86B1DBBC028942 /* NYTPhotoCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAEF3A7CEBB6108869F17A63C2E08A7D /* NYTPhotoCaptionView.m */; };
 		210FB25A68E3501A484AA2B0DB8F678D /* CSSCompoundSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = E66A98C6C27F819128C70C128FA439A7 /* CSSCompoundSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2530676EFF64D0A7B67A998728936EB2 /* RSKTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76CEF0CACB85B09C0C90403660C820D4 /* RSKTouchView.m */; };
+		21F07278665B71617EC5089F3BB053E5 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD477DD332E19760FCB04A1252C0F626 /* HTMLTokenizerEntities.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		23ECB8E58B5B767808BCEFFCF289B7A6 /* HTMLDOCTYPEToken.m in Sources */ = {isa = PBXBuildFile; fileRef = F0E7CF939C45A150B9E5C213C8A3D317 /* HTMLDOCTYPEToken.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		27F59382494FBEF721F042019F57EC00 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DD1EF431154B2249E8CBA70A60599B4 /* AFHTTPSessionManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		27FA97581AB0EA00F1A0A2D8064E0372 /* NYTPhotosDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDECA798DBBD9921E317B11C2E3560E /* NYTPhotosDataSource.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		2AC8E1F5CC50431004010A65099FB092 /* HTMLDOMUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E7DD933CFF5B1E57E4058F0036EBC670 /* HTMLDOMUtils.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2B50732C14464E78559D8AAE6E22E47E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259A9A1BE5FB9179248C67E9DB176DE3 /* QuartzCore.framework */; };
-		3146A932B1F02BD3B5C7AB39CD1F2193 /* RSKInternalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AECC089C65ABFFD3D4A16D1788F7AEB2 /* RSKInternalUtility.m */; };
 		320A1F72342D5138D4909F63FF94E8E8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658B70333C43EC7AF7FFBEE686D0710 /* Foundation.framework */; };
-		3345805C0D8E8D0726F7E5981DA61A5F /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 35826EF682545151162ABCC745867839 /* UIWebView+AFNetworking.m */; };
 		336A856321D468FC1716472658E74A50 /* NYTPhoto.h in Headers */ = {isa = PBXBuildFile; fileRef = CE59B320418AAE420D86BD2C997B9AB3 /* NYTPhoto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35FAA09F59F20A835F7040381CEDF065 /* HTMLCharacterData.h in Headers */ = {isa = PBXBuildFile; fileRef = AABA3CE938E11896CD24E020FABC8549 /* HTMLCharacterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		363A4FF89784E10D778D456C4A5E2C67 /* CSSSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = E61949D91BB91A396F77DBF2E3F2530A /* CSSSelectors.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		36CA3F4DBECFE150FC0ACD75F933AFCE /* RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7568778C56F126ED52A107E4125744E4 /* RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3A1D03BA8E27FC93876A2D85E0600AB5 /* NYTScalingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B558939399DDF394B1DE2EB4766911D9 /* NYTScalingImageView.m */; };
+		3A6A2A46DCF39E71212799E36CF6571D /* NYTPhotoTransitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0F751152229C27AA579D3F61B3C559 /* NYTPhotoTransitionController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		3A9B992EFCAD2975BDEAD099B8A84577 /* HTMLCharacterData.m in Sources */ = {isa = PBXBuildFile; fileRef = D344C0ACF57D3C639A677ED9354ED4FD /* HTMLCharacterData.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3AB54F32927F3B17428DD0EB06429A5C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658B70333C43EC7AF7FFBEE686D0710 /* Foundation.framework */; };
 		3C865A0268FA65F2E0E420F9CC16C187 /* HTMLToken.h in Headers */ = {isa = PBXBuildFile; fileRef = EC364C4F66434E21E0B5C16D08B36EC2 /* HTMLToken.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		3C9E113B7712442B4BCB59AB7EEC2085 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A6AF2F8E7BAF3AE8DEA14DFCAB142477 /* AFURLResponseSerialization.m */; };
 		3D6A4990F8A8F2BEA2C9CB6EF152E29A /* HTMLComment.h in Headers */ = {isa = PBXBuildFile; fileRef = DF055D8BC5C4C11A05BF27FA54FFFE7F /* HTMLComment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3DDB894364CEC991E61B04E9036D6D54 /* AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BDA81D41D1C99C11AA37766452392D3 /* AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3F3662E60669AAF442F292B06E691231 /* TTTAttributedLabel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B460B2FF8775069F871C1E074AF0F9 /* TTTAttributedLabel-dummy.m */; };
 		3F7FEA2190810C4807730CA6732E4461 /* HTMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = EEDFF05D475E204A45BF41555A3E7F00 /* HTMLParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40152F614ED0C66A19480180BFD8C3F9 /* NYTPhotoTransitionAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A1DFD5357C4CB63230A21988E999271 /* NYTPhotoTransitionAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		408D2FED518321485951402E227634CC /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 874B66B053D1D85A0092C01644F50057 /* FLAnimatedImage.framework */; };
+		41CC9262303667F6B5981BE7A44538DB /* CSSNthExpressionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 993DE7330C8D9FAC07C3213A53070E8E /* CSSNthExpressionParser.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		42725DD5CF41007D81E86471D0677E14 /* NYTPhotoTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4662C0070832FF7027E6FBDA08AE0CE2 /* NYTPhotoTransitionAnimator.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		469A89690D06CBFF3E79AA14FEBEE9FB /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1472FCFFD268D999B4B2A12CFFC90D14 /* AFSecurityPolicy.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		47CC62839C4E3A54E685E381B1A0A3F3 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 49CFB4409093B74D0C600344488DE204 /* HTMLNode+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		4863FF6DD4B204BC779E432E41D42DF6 /* HTMLKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F71AD9B4CDA91660E4BC2B19EF486896 /* HTMLKit-dummy.m */; };
+		490E2DF52B94110CA8F47CA406DD5338 /* HTMLNodeTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F05E9650E69AFA1043D5A274715605B /* HTMLNodeTraversal.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		4970BA41F3C8A20F8D3B154E0E96F184 /* NSString+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = F56244B204170E0D388A7F94B0C44EEF /* NSString+HTMLKit.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		498027F0460F95B6C676703174EEA551 /* NYTPhotoViewerCloseButtonX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65B0D6E1479A16CA87283EDB912E5892 /* NYTPhotoViewerCloseButtonX@2x.png */; };
 		49E6A4F5345E0B4825CC8EEA4D22074B /* NSCharacterSet+HTMLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D7A1B6BA9424292E9EBEF88653589201 /* NSCharacterSet+HTMLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A2276A8228028E427FABAEF343B9FA6 /* NYTPhotoViewerCloseButtonXLandscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F7617057CBC0B6EA029129D02BAC22 /* NYTPhotoViewerCloseButtonXLandscape@2x.png */; };
 		4A6A0458CFBA71B72910DE731AFA0778 /* NYTPhotosDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A06602B5ACAC36427B5FC930EF53E19 /* NYTPhotosDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4AA21F40697CB42D7D219ACEDE4FBFCF /* AFAutoPurgingImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 64CD619434BB2BE41772FD175C028E90 /* AFAutoPurgingImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4AA3A9FC9AAD94C226CA975946C9395B /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF0BC5EADA25745957C932CA0E735CC /* UIRefreshControl+AFNetworking.m */; };
-		4C321BA8844AA4C44D4416CC6948DF2B /* AFNetworking-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F1CC81DCC0B5B7889A1095A6F0CBC8 /* AFNetworking-dummy.m */; };
-		4C5DA96F7CAC26975EEEBD7450FF214D /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3778115B9869EB176EEA258467F1DD /* AFURLSessionManager.m */; };
-		4D5D9EC9BFDB7F92CBDA018CB74C9B0C /* CSSInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 68AE2F790E7BAFD8DBF052DA2D871718 /* CSSInputStream.m */; };
-		4D69320E8C9603DAD5FB8FA252F39DE2 /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3EBAC660679987E4969474F2A6E459 /* HTMLElement.m */; };
-		4DA1E3F68C226B0E714B7D6FDB1E790D /* HTMLCommentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = F041E0226A91C21FB0AAF0088D26B616 /* HTMLCommentToken.m */; };
-		4DABF3C6277FD53A8DA2EDB0BD8EAB29 /* HTMLStackOfOpenElements.m in Sources */ = {isa = PBXBuildFile; fileRef = D85702AC7B4DA54112A6A68E6077907A /* HTMLStackOfOpenElements.m */; };
 		4E8BB3CC835482FCAAFA0DB8A247A3BC /* HTMLNodeIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = EC3086DCC83D8CA2AB150A564E47E6E1 /* HTMLNodeIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50179F203593EC002F0425C45DE7C786 /* CSSSelectorBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = B072815931656EE52F466C110BFC4323 /* CSSSelectorBlock.m */; };
+		4F8F9F4724430CE4B1BDD2DC89AC7658 /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 356DF3A771C872BA47E5CFC7EC89502D /* HTMLDocument.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		516EE45BABBA91A148342108185CDB6A /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E685CCF840F0F7CBBA3F01643D89101 /* UIProgressView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		526DDE59530068730AA61FD362D2EE85 /* HTMLKitDOMExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 017FD6FCEC67D6EF52DB6F4D1D06B389 /* HTMLKitDOMExceptions.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		52992C118F6D8C96656543CAA81431D2 /* CGGeometry+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = E826D81FA581B3B8201EE3A9F1DC443F /* CGGeometry+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		537486179B0F1D7AC9F649B1A7E0B297 /* CSSInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = CA7872ACC488D6DB35F70076DDCCD96C /* CSSInputStream.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		539EF496CF555228D628F6037595F78F /* HTMLCharacterToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E234E60192E34D84C3548C952F6212C /* HTMLCharacterToken.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5432DBE2468B7914FB4CE5C867F1EF03 /* HTMLCommentToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AFEE191B9B457B76AE144631124FD06 /* HTMLCommentToken.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		54B72BE8851E881007E5620B47F98A89 /* FLAnimatedImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 920AE2C883A155858BB744AFB1920436 /* FLAnimatedImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		567050257C96324FBEC4145CA8B66A59 /* HTMLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D80432F024200788843A5FA78F13BD7 /* HTMLToken.m */; };
-		56955A893D3B0B94E74A8C9117BFE6A7 /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA02A639CCD3607A3AB73E142FD74AB3 /* HTMLParser.m */; };
+		567EC7879A76B4F1FEFCB0EDC55D8EDB /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDFB320614E4480173B6372D1C5F405 /* MGSwipeButton.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		570BA6BE3110B5DEF2D1B8D6D330EF9C /* HTMLDOMTokenList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC9A48E97DD10C883E43D8BE884D8C5 /* HTMLDOMTokenList.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5877B7F496E7633CC2312C90A1185352 /* HTMLDOMTokenList.h in Headers */ = {isa = PBXBuildFile; fileRef = 04830E576AD2B299C4D612ACE3A9580E /* HTMLDOMTokenList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59A2711921A94AFA6BD0400E18171CCE /* RSKImageCropViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = EF1A82B18A9A11CE257BBFE6BA0F4DF5 /* RSKImageCropViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5BA46B05E51D35FC6240DFA6A0DFF386 /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D329AECCF47C0BC1D627746C3160BB /* CGGeometry+RSKImageCropper.m */; };
+		5A0B0A6DCAD469D4C09D9E342A60E44F /* RSKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48AA39DCFC6356D544C3302E3978AC2B /* RSKImageCropViewController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5BAF799FF6F33E552697C6F83A917CC7 /* NSBundle+NYTPhotoViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2194D54C6715DEED58E4013A76A3BE85 /* NSBundle+NYTPhotoViewer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BCCAAE432194A4CB2355CEDE10EF936 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259A9A1BE5FB9179248C67E9DB176DE3 /* QuartzCore.framework */; };
 		5BFE1CC79F693B6218B419AE50B2070E /* AFNetworking-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6F68AAD4947AF94A96957A16D8C5FD /* AFNetworking-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CC3CCA46EB15D359619375F08B3D437 /* HTMLNamespaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 30AA6B57C7EF90EB0571278B0983D56D /* HTMLNamespaces.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5F059790A1AC08184EDF7F69331C4CF3 /* HTMLEOFToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5BF3C92E2D49D7F8A42D4D3CCD88A0 /* HTMLEOFToken.m */; };
-		5F8AFCEED9A5289FB372AB03A97C44E5 /* HTMLInputStreamReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F3371FBF2578484CA70D97C9436671 /* HTMLInputStreamReader.m */; };
+		60AD3AD2AC6602454D700D971B2E8BC9 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2115BAAF8B7232C858B70EF7CB31BF37 /* HTMLComment.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		60C59F03BCF433908A3CE340DDC10DBA /* HTMLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 734E72DBE6CD11F8DE5408D68DB7A8CA /* HTMLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		61CD0D746A44B2D97A636BD8585CC0FD /* NSCharacterSet+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F907E869C9306CE17C15269BE3CDB1 /* NSCharacterSet+HTMLKit.m */; };
+		61C83224C02B5B9DEBD5A065226E69C3 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC7D42D2EBA4A13436A88BE53E354BB /* AFNetworkReachabilityManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		62D617C36D43DFF198152B866611E94D /* CSSSelectors.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA22207A48E3274C684D68AEAA3A35E /* CSSSelectors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6325799576BD712045303B5B4AAC0291 /* NYTPhotoDismissalInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCA8A97109F23EFA6226D6CA74227E /* NYTPhotoDismissalInteractionController.m */; };
+		62F1FA5E9A217A8A7C8561D813B51D5C /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A017C471F1976EAC365FC27D03BD417 /* FLAnimatedImageView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		63BA6FBA10304F4828DE97C0FA63ED9D /* UIProgressView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = DDED5EDB818FE927BFA50EB4109E48B0 /* UIProgressView+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		64034019BD874E8E6491F911D1CECF45 /* CSSCombinatorSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = D55E865A91407575088E468EF789FB23 /* CSSCombinatorSelector.m */; };
+		63F7A4E31C91CC30D2E960BC52E04F1E /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 35826EF682545151162ABCC745867839 /* UIWebView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6478B0091202F9429D2A61E30BEDA571 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27E866F0F841D8555D520A4AE2F06E5C /* Security.framework */; };
-		64D0D0A473FFD467CC2D768581AB9A72 /* CSSSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = E61949D91BB91A396F77DBF2E3F2530A /* CSSSelectors.m */; };
-		6595C6295B9EBBF40751A376239681FD /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E685CCF840F0F7CBBA3F01643D89101 /* UIProgressView+AFNetworking.m */; };
+		66BB90BAB921026D817A3CD115CD4FEE /* HTMLListOfActiveFormattingElements.m in Sources */ = {isa = PBXBuildFile; fileRef = F8103CE771403C91BDE5F004AE53A3A9 /* HTMLListOfActiveFormattingElements.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		68317223E5C3C74A1D08D51184C88866 /* NYTPhotoDismissalInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCA8A97109F23EFA6226D6CA74227E /* NYTPhotoDismissalInteractionController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		68BF3AB1519F2EB32CFAE7EC4328832D /* RSKInternalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AECC089C65ABFFD3D4A16D1788F7AEB2 /* RSKInternalUtility.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		68C0E62DA30F91BED7FE89BAD45C4967 /* HTMLCharacterData+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 61CED8CAC20B4A2A2A8A3AC9B02CD03E /* HTMLCharacterData+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		69432FB506E18C42BC1ACCD9297E38EA /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3778115B9869EB176EEA258467F1DD /* AFURLSessionManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		69B1F46BAF5AC29C80D90D76B0104D2E /* CSSPseudoFunctionSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F804C9DCE3CBEC70E4F2B636A488AFA /* CSSPseudoFunctionSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6AB8F78680B3470391219F11D51A1DE7 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C0B07F09D89C183791E8D1115039A4 /* UIImageView+AFNetworking.m */; };
-		6B09CC266CC15DA34F6EB04979CADCBD /* HTMLCharacterData.m in Sources */ = {isa = PBXBuildFile; fileRef = D344C0ACF57D3C639A677ED9354ED4FD /* HTMLCharacterData.m */; };
-		6BC010D0BE74DB76857AEBF5F52A6A05 /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B75078B7AE8DFF60081DE534155997 /* HTMLTokenizer.m */; };
+		69DC42F75E30CA26F5A95222919F75CC /* HTMLNodeIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CDE5331AB0B5B5C42B6FFAB5445DFDB /* HTMLNodeIterator.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6A27F86E9BE71F5B4B19CCB21029BDEF /* NYTPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76823B1493C6D5D28A92D6402B686E7E /* NYTPhotoViewController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6A46C3D107178B91375F1474D9901067 /* CSSCombinatorSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = D55E865A91407575088E468EF789FB23 /* CSSCombinatorSelector.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6BB010FC9C564D2C156185D31680FA57 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2645A54470C4AE395529F69BA2A298E8 /* UIButton+AFNetworking.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6BB3F14B7FF02A9612583E2A9A9F58C5 /* UIApplication+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7219448FBFB431220EC0775A692EE422 /* UIApplication+RSKImageCropper.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6C9CC55572575203674A29CC20F1C322 /* Pods-SendBird-iOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C0B27F15E02B31D833E3F37A594757 /* Pods-SendBird-iOS-dummy.m */; };
-		6D1AE3AD75CE9591EC2227777DF3273E /* CSSNthExpressionSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = FB69867139048C993789A8B1D3F04131 /* CSSNthExpressionSelector.m */; };
-		6DB790C2E98FEA8D3AD6D76420D504F6 /* HTMLDOMUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E7DD933CFF5B1E57E4058F0036EBC670 /* HTMLDOMUtils.m */; };
-		6FD8CE53F0BA564E9405243DF5FC2E7D /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BCCD2ECA76FDD230B52942271B8AD33 /* TTTAttributedLabel.m */; };
-		7099E4035C06D3116DA2586EFE563C0B /* AFAutoPurgingImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 68158FE82B23F78B362764A65FF7EA4D /* AFAutoPurgingImageCache.m */; };
-		70B6221D4A678293FF883C263586D761 /* UIImage+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1500257BC1E51F7E4838B45F901EFBE1 /* UIImage+RSKImageCropper.m */; };
-		7346E4C48D763F1066074180B1CAFC78 /* HTMLKitDOMExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 017FD6FCEC67D6EF52DB6F4D1D06B389 /* HTMLKitDOMExceptions.m */; };
+		6CA804342026C8DD0D47F82901AE587D /* MGSwipeTableCell-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CB92FB236DDA5675C9EB1AF0A06BC55C /* MGSwipeTableCell-dummy.m */; };
+		6CF5FD42481C2457107C2F5DB553637E /* HTMLEOFToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5BF3C92E2D49D7F8A42D4D3CCD88A0 /* HTMLEOFToken.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6E0F2CB83D128036447959E7C1262591 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DF4E16913780CBD0432C0EE95C982465 /* HTMLNode.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		77528A0A1C702E2022FCBA1C2536F65E /* Pods-SendBird-iOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D68B809656D4E8911087463BE435B9E /* Pods-SendBird-iOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		77C0BF5ADACD9F011FBF4006B7FFA842 /* HTMLTokenizerCharacters.h in Headers */ = {isa = PBXBuildFile; fileRef = 61C8977EAADDBC51002694356C643872 /* HTMLTokenizerCharacters.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		78387CACC4B430A812F60ABB9F87457F /* NYTPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3DC230E3C115D084049C491DD20F87 /* NYTPhotosViewController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		789A5880D9CB9A3BC1CE294A3F2D8929 /* CSSCompoundSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = CC377B020D396CF0B877390D4C846681 /* CSSCompoundSelector.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		78AC6714960C42CC866222B6D956EDF6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4C82094065E8C7E00B7E5DA780916A4 /* CoreGraphics.framework */; };
 		7ABA7854F7EC83DA273F23100EB8C3F1 /* HTMLStackOfOpenElements.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A459CEB049A463F26174F03F263D87E /* HTMLStackOfOpenElements.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7AFF4400FEAABF4469046B1B5C55FFFE /* HTMLTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A8CD136A2F2157AC3F363E9872180C4 /* HTMLTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7BA65838D4F14672D4132233222FD12D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658B70333C43EC7AF7FFBEE686D0710 /* Foundation.framework */; };
 		7C0DEA489F6B2164462867D3200FC3B9 /* HTMLTokenizerEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = B81C4B1BA7667B66932B3126F05324B4 /* HTMLTokenizerEntities.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		7C83A9CB826CFE9D6EDFE5312CC87EE7 /* RSKImageCropper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CA99E3B640D75AB274EA403F2021B8B /* RSKImageCropper-dummy.m */; };
 		7E86305BE015175BD72FDE753C492E6D /* HTMLTagToken.h in Headers */ = {isa = PBXBuildFile; fileRef = E290F2E6447FC5ECD7450E7462FD3281 /* HTMLTagToken.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		7E90B4B7E8340D89605D04B97D0AE8AD /* NYTPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3DC230E3C115D084049C491DD20F87 /* NYTPhotosViewController.m */; };
+		8035B85256F562399A3B7BC2E00507E8 /* HTMLInputStreamReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F3371FBF2578484CA70D97C9436671 /* HTMLInputStreamReader.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		80EC22B4F58B0534F6C4580168887325 /* NYTPhotoViewerCloseButtonX.png in Resources */ = {isa = PBXBuildFile; fileRef = 006DE7C11B906F96CB053D972C738592 /* NYTPhotoViewerCloseButtonX.png */; };
+		819E31E373A9E1A63C4B129A2691B4B8 /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D329AECCF47C0BC1D627746C3160BB /* CGGeometry+RSKImageCropper.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		81ABD96C8FA6FF28CFB2A3A78A6EA560 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6D71FBEA2414089B2C142DB2FAA8C99 /* SystemConfiguration.framework */; };
-		83BC42C39A4CFD06704518D182698999 /* CSSNthExpressionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 993DE7330C8D9FAC07C3213A53070E8E /* CSSNthExpressionParser.m */; };
-		849FF124E3DE25AFEEFE60B05F20F3EF /* CSSSelectorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 818C5EFCF7AC89BD302552B908AB5868 /* CSSSelectorParser.m */; };
-		85157EAC66767FE12764FC715A6BCA51 /* HTMLNodeTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F05E9650E69AFA1043D5A274715605B /* HTMLNodeTraversal.m */; };
+		82811E294F0FA0C0135887F2D0744B6B /* NYTPhotoViewer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C6073808FC58FABAD9491F662C36E910 /* NYTPhotoViewer-dummy.m */; };
+		83F51437A474C566D806D726A5BDFEB8 /* HTMLDocumentFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F42ECFA6C795CA510B68479CFB8E912 /* HTMLDocumentFragment.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		853A57622AD74BC28B636A4BA38E6873 /* MGSwipeTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 08409C5EF2469C777ED6C1F0B98C1F23 /* MGSwipeTableCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		85D42E9EF7F6CB9DCD834EF0364A30BB /* HTMLParseErrorToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 573A4918D899FB720E1A77AD6AADC23B /* HTMLParseErrorToken.m */; };
-		85DDF26736256FF897F4D687F8D76F7C /* NYTPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76823B1493C6D5D28A92D6402B686E7E /* NYTPhotoViewController.m */; };
 		86EA527BA1862E06A8E19E0960C66E7E /* UIRefreshControl+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 23384889FFCA9495FE0D8FC5901303D5 /* UIRefreshControl+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		879F3C72BF6A5122BA70CAEEDDC5B845 /* FLAnimatedImage-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F7C479A1F5BDE92D3AC0D7836E5C7A0 /* FLAnimatedImage-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		887FFB328591D8CCB59189733EDFBE82 /* HTMLOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = D98F91F2C13535C2284D9738C3BF0F4F /* HTMLOrderedDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -141,117 +139,119 @@
 		8978BB7FD70F599595BC023E92D3C485 /* HTMLNodeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 012DFFBEB3C43B36BB96C1F2BC91799B /* HTMLNodeFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89AB2AE681A8B73DCAFB0D9A2E44AB93 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658B70333C43EC7AF7FFBEE686D0710 /* Foundation.framework */; };
 		89D5AE38FD8E1796326594C3A7D5B9A8 /* CSSSelectorBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 68F93B679372F16C9133E0C2054F4E43 /* CSSSelectorBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8A1EB96C607F92E8AA20676F9A4BC7D9 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2645A54470C4AE395529F69BA2A298E8 /* UIButton+AFNetworking.m */; };
 		8BACB168E46C1A25CFFAB24299E9C2D4 /* HTMLParseErrorToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D5E65C55C3B41CB6CFC9D76C910316E2 /* HTMLParseErrorToken.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		8C1771BECC0DA6C28D8EB206F8D62D67 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EB53E96BDFF0C7729CF543915AEB12 /* FLAnimatedImage.m */; };
-		8D0D11B8393705D61CCD650624097C08 /* NSBundle+NYTPhotoViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E1A4BCCC2A968FCD4485B6084D89A3 /* NSBundle+NYTPhotoViewer.m */; };
+		8C1A5E4DE27D20CF3B41ECA1C55D0700 /* NYTPhotosOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 479D169385FBF00E760D95C2603F7B03 /* NYTPhotosOverlayView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		8C91FEF912E94A00FD72A53AAF6CEA62 /* FLAnimatedImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A5CDE997B6E2572440DF536818EA6AED /* FLAnimatedImage-dummy.m */; };
+		8D24C29031DE2F5687396A83BCC94CF9 /* HTMLCommentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = F041E0226A91C21FB0AAF0088D26B616 /* HTMLCommentToken.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		8D9636C74777C684BDF312EE66F8A585 /* AFNetworkReachabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AC494EA8EBED026DF2D5AD42DE318FA5 /* AFNetworkReachabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8DF2D0F1974242A1EB5099DE37B4DF5B /* CSSInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 68AE2F790E7BAFD8DBF052DA2D871718 /* CSSInputStream.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		8E866D91CB4C5DCF2A8E4680E807298F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4C82094065E8C7E00B7E5DA780916A4 /* CoreGraphics.framework */; };
 		8FD73610F2B473290AE6F84879C66E2F /* CSSSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 156EBC406BE8DA3D4776509DE42F6929 /* CSSSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		90FE592BAEA836259222A08BE7B072D1 /* HTMLMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DC2FE1FC878C1F084A3BEBB9B826B /* HTMLMarker.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		911687B3B61622A4BDA09E6DDF4101E5 /* NYTScalingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B558939399DDF394B1DE2EB4766911D9 /* NYTScalingImageView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		912F654B90E17294E7DAC7BD3D41C778 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658B70333C43EC7AF7FFBEE686D0710 /* Foundation.framework */; };
-		9240807F6B3871364E6A2A16549F00D9 /* CSSSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB22AB76DF764FD179021747AACA2D5 /* CSSSelector.m */; };
+		9195BAB213ACCF65F939BFBA8F7502D7 /* RSKImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22EC3782A6D25CD527164650AAFAD89C /* RSKImageScrollView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		92B0C6990DC7099C2F81F7861ADB0430 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D94E5E50B14F5EF845B6FD27DB7E287 /* ImageIO.framework */; };
-		9350C6FB94D1E50F17745C1715F56BB2 /* HTMLNodeIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CDE5331AB0B5B5C42B6FFAB5445DFDB /* HTMLNodeIterator.m */; };
-		939EF882233B22D0321A70F6DADED11F /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DD1EF431154B2249E8CBA70A60599B4 /* AFHTTPSessionManager.m */; };
+		937A78F83DE43F33DCB9845A4E5B6DAC /* CSSNthExpressionSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = FB69867139048C993789A8B1D3F04131 /* CSSNthExpressionSelector.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		93ABBA6821676A1688635C69780BCF10 /* RSKImageCropperStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8FFAD3097B6CD9BB94B14D4AEC02AFF6 /* RSKImageCropperStrings.bundle */; };
 		93FB8786EC786EE2714DC8CA944E9AC4 /* HTMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 31913F15614FA17ECFBD8320472AA3DE /* HTMLTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9482D5E6E9814BC129D33764C8A3E3C0 /* UIApplication+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B038BE0543173081F98946012A7AE11 /* UIApplication+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9710BFFB5286ED10B8981B9E6E6E433B /* CSSTypeSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 0322E85B554A0D30A34BFD7F8550AB75 /* CSSTypeSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		979C399F8B6210B1B61F1C68582BAAD0 /* NYTPhotoTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4662C0070832FF7027E6FBDA08AE0CE2 /* NYTPhotoTransitionAnimator.m */; };
 		98584CA55A24217AC07D3FF3DDA77432 /* HTMLMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = FB7511C14D79270185C865E4A85EDB86 /* HTMLMarker.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9885468AE032EB1CDE1B17390CB505BC /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 629B93F2D77B019E002398B87CEE1927 /* MGSwipeTableCell.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		9898B13B5771AC304E096319E72F8098 /* AFCompatibilityMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F69AF8A20E20A43A77E6909ED1493F8 /* AFCompatibilityMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AC1064802A4D107353A87F2B4A963B0 /* AFNetworkActivityIndicatorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9631F857C2DEF48118090EC79562025E /* AFNetworkActivityIndicatorManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9EEB270D327F9912ADAD604F3E2C421E /* CSSCompoundSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = CC377B020D396CF0B877390D4C846681 /* CSSCompoundSelector.m */; };
+		9E4E43A9B3EE744364D6691BC60AA07B /* RSKImageCropper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CA99E3B640D75AB274EA403F2021B8B /* RSKImageCropper-dummy.m */; };
+		9E5B0D7F498FF8B7D84F3CEDE04DA7EA /* HTMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = E06488F0C56DF70D69297ED6FBC50F7A /* HTMLTemplate.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		9F116C43F8B1D1A93DFF886A9B88B222 /* CSSStructuralPseudoSelectors.h in Headers */ = {isa = PBXBuildFile; fileRef = 4664D4B99849C51BD951BF22DB3DE019 /* CSSStructuralPseudoSelectors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9F161A42734F804DE9ADBD80B817E583 /* RSKImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22EC3782A6D25CD527164650AAFAD89C /* RSKImageScrollView.m */; };
 		9F24582964532541F345C6654E046CD7 /* HTMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 35FB31D51F627D7FAF35169418AE6B03 /* HTMLElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0ED48D0BA8B0010AA0454327F5AD005 /* NYTPhotoViewer-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7D2EC6F7581A00A8D9C23506EA4D84 /* NYTPhotoViewer-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A12A3BC640B690479F345A49C6C48209 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC7D42D2EBA4A13436A88BE53E354BB /* AFNetworkReachabilityManager.m */; };
 		A14E3A05070D48C318CF8B5915A8E460 /* HTMLTokens.h in Headers */ = {isa = PBXBuildFile; fileRef = 97021C7940891E2CFE5B6397E28483E2 /* HTMLTokens.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		A1F4FA4A55CB8A34A625C52F7F930B16 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E931E1EED085CB614F0EBB71CCA61C6 /* CoreText.framework */; };
-		A2EFAEABB5CA98D4CF32700231BBD139 /* NSString+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = F56244B204170E0D388A7F94B0C44EEF /* NSString+HTMLKit.m */; };
+		A42401EEEFDBCBCE271140EEAB93B1A4 /* CSSTypeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AA911B3225AA9108759AEC050AB84 /* CSSTypeSelector.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		A529F6618C883A9CAA2B74CE4155BA7D /* NYTPhotoTransitionController.h in Headers */ = {isa = PBXBuildFile; fileRef = 08EFF92ADD4EDBAB9380366F52EC050F /* NYTPhotoTransitionController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5B069CA1170E03891AC5648DE5CF87D /* UIImageView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B85D37DC23489ABF789ED679122CAB1 /* UIImageView+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6855D9D7029C3B3A1C6D4BD59D00A44 /* CSSSelectorParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 49089E3A6BF0C952434C0173A92B555A /* CSSSelectorParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A80042E1C598A2BB9890B29224775B45 /* HTMLQuirksMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 52E81DD41A8E2273D2E57DA87890CA50 /* HTMLQuirksMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA3741CE83763885CD7DF650607E9E49 /* NYTPhotoDismissalInteractionController.h in Headers */ = {isa = PBXBuildFile; fileRef = 71FABEF11CB36E151DE380EE00CF170F /* NYTPhotoDismissalInteractionController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AB0E8624B6CF27117F579614ED2B102C /* CSSStructuralPseudoSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7949BEF32C7D04CD97BA091D1EBAF428 /* CSSStructuralPseudoSelectors.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		AB1ADFEF768199ED44C568B107A42D59 /* HTMLInputStreamReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 50C94DB1F7AF563B308F64FAB251A209 /* HTMLInputStreamReader.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		AB6044A5320F29D9A4461D98F7B78CDF /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFB5DC4DBC6EA131E8295858FAFCBD3 /* UIActivityIndicatorView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		ABB8B8CABB1DE8BE2415E2EF467339D3 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF0BC5EADA25745957C932CA0E735CC /* UIRefreshControl+AFNetworking.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		AC672F03F3BE5707DA55FC15853DB31A /* AFAutoPurgingImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 68158FE82B23F78B362764A65FF7EA4D /* AFAutoPurgingImageCache.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		AC7C5398E9B98EEEEE5B0A971EC2B345 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EB53E96BDFF0C7729CF543915AEB12 /* FLAnimatedImage.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		ACEF52D266CBF9E8C7E9F7D5E2C0937A /* FLAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8070FC7CCE3E860BF3DF2BBC84A14E /* FLAnimatedImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD591832F30795AF18F990AA96D5CB3D /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3EBAC660679987E4969474F2A6E459 /* HTMLElement.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		AD868043328B2125E27A5DC14D11958F /* UIActivityIndicatorView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 54E33B3D3FAB43A8B694BBD9770BD531 /* UIActivityIndicatorView+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD98976338DC4F364D621EE2C7F15ABE /* UIImage+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E173809BB59AB3A560296E863547F66 /* UIImage+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADD011E9ABBD96D70AAA32A4B9ACBD02 /* UIKit+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 9336D3B3AEF53B98420B4B991C40EAFA /* UIKit+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B086C8017A694E281B3F30DCCE8FA588 /* AFHTTPSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 882BBFB65E776A2A37A32902B124E1C6 /* AFHTTPSessionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0AE94929E6EE28C10C4C543A000554F /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA02A639CCD3607A3AB73E142FD74AB3 /* HTMLParser.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B16B0543981E15A5294175B33077D967 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4C82094065E8C7E00B7E5DA780916A4 /* CoreGraphics.framework */; };
 		B1BD187AC337DA5AC610CD512EA6FAA7 /* HTMLText.h in Headers */ = {isa = PBXBuildFile; fileRef = 623D5A559B5682569CBA4EE111980A70 /* HTMLText.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B21C2DAE7E63F4B7C63844707603E407 /* HTMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EBBFDBF46EBC46CB0E332CC55E69844 /* HTMLNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2AD74A9097ADD8B4D2CC968044DF94D /* HTMLKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F71AD9B4CDA91660E4BC2B19EF486896 /* HTMLKit-dummy.m */; };
 		B2FD1210FA19F06D76D2326D016145E7 /* HTMLParserInsertionModes.h in Headers */ = {isa = PBXBuildFile; fileRef = 59BF18F37B539BD8EE9E8D8438329651 /* HTMLParserInsertionModes.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B46FE8C00C2CDDE0B4790FFD3DC961A4 /* AFImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 41522650919E6020805E455038B20413 /* AFImageDownloader.m */; };
+		B4728C5ED7E151A4BE306BE0889EA8EC /* CSSSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB22AB76DF764FD179021747AACA2D5 /* CSSSelector.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B4BF06D8ACEC7F628431DB8DDE4F6E64 /* CSSCombinatorSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = E7178D75F721BD40D5DA1B298A97F6D5 /* CSSCombinatorSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B6533EFF69AA9E2AB73837FD8950F1C8 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A017C471F1976EAC365FC27D03BD417 /* FLAnimatedImageView.m */; };
 		B658AD1632440B356219D56B5BF6B548 /* HTMLNodeTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB8B8AC41CD537BED29D0B11D75B8EF /* HTMLNodeTraversal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B69F127C539573658E3FDEED00D59851 /* NYTPhotoViewer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E3D4CB31CB38F5514D7364AF7F481261 /* NYTPhotoViewer.bundle */; };
 		B6BE246670ACF7A9A95028107661AC2A /* CSSCodePoints.h in Headers */ = {isa = PBXBuildFile; fileRef = F1A29A893B302DACAB22EB9862626A94 /* CSSCodePoints.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B6D5A0030EAF396693EB0005D8996BD9 /* TTTAttributedLabel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 07EAE56D1BE13B03A05DD0A7D9F64D3F /* TTTAttributedLabel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B8268C62BA593DBAB07027780007B3DA /* HTMLDOMTokenList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC9A48E97DD10C883E43D8BE884D8C5 /* HTMLDOMTokenList.m */; };
-		B8BC9C8BE49CE6B2D9AA488F66FC3C88 /* HTMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = E06488F0C56DF70D69297ED6FBC50F7A /* HTMLTemplate.m */; };
-		BB25A1A6882E6304700266BA1870F467 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = EDCD280869C36109C049420360DAC61C /* HTMLOrderedDictionary.m */; };
+		B7FB02ABB0D22BF084491A5519885AA9 /* NYTPhotoCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAEF3A7CEBB6108869F17A63C2E08A7D /* NYTPhotoCaptionView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		BB68DFBCF826FE5816C75EF752FB1B69 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9694C898A5EABBDDB5B734D48A0B03 /* UIKit.framework */; };
-		BD6B1B9BE888A2B288A09F6E73B88D0F /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 356DF3A771C872BA47E5CFC7EC89502D /* HTMLDocument.m */; };
-		BDFD9B4FB3359883CABEF8B747F3F3C0 /* HTMLTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5898C66F47363D9DDAE8F8ABBACD0C78 /* HTMLTreeWalker.m */; };
-		BF8C97D476C799A349FBCDD79301CF30 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD477DD332E19760FCB04A1252C0F626 /* HTMLTokenizerEntities.m */; };
+		BC6232FE673C59CE021EAC82F6DC4C9E /* HTMLCharacterToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8DA7A8D26B3D1CF2CD8AB9B1D68B09 /* HTMLCharacterToken.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		BF989934D4A2D6ED0BBC6B726C7CCCD4 /* RSKTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76CEF0CACB85B09C0C90403660C820D4 /* RSKTouchView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		C0045F233BE411FF02B6F5D79AFA1251 /* CSSAttributeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CDE926265BC13B1668A5FE603FCEAFC /* CSSAttributeSelector.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		C08BD0F89195335062D9BBA7EBA2BE76 /* NYTPhotoCaptionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 950CB8CE4CDA3F9D9E05B3DDD576EF46 /* NYTPhotoCaptionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0CECE73A91765A621B9E8D3D3026760 /* NYTPhotoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CECB69A1709B5DFDB1905B975F26027 /* NYTPhotoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C12BAA822391D670C53FF0C2299654AD /* AFURLSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D977E710BEBA29073D45444700D1EFF /* AFURLSessionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C257BE809D4C4357A8EB7118960E3143 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFB5DC4DBC6EA131E8295858FAFCBD3 /* UIActivityIndicatorView+AFNetworking.m */; };
-		C27EDC31F29522B5B89E9E8FE589515A /* HTMLText.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C746CF5FCE2BBA95FA1256D4CFA9B8E /* HTMLText.m */; };
+		C1D8AE0EF03D81A5091740E542232A77 /* AFImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 41522650919E6020805E455038B20413 /* AFImageDownloader.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		C35EFCF86015D931C2266D7DF9D556B4 /* HTMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = D67E15138D18FA53244F9CAFCFA16B36 /* HTMLDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C4383137DE4310785C6314BAC483BB93 /* HTMLDocumentFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F42ECFA6C795CA510B68479CFB8E912 /* HTMLDocumentFragment.m */; };
+		C3DC34DD4D2EC0ADB1DDE35584AF82FD /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B75078B7AE8DFF60081DE534155997 /* HTMLTokenizer.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		C40394F6CA54DD1A37FCBB8FC9E09B04 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C0B07F09D89C183791E8D1115039A4 /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		C5FEF695F41DBB13BE833E19C3787572 /* HTMLElementAdjustment.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2744590AC702B1178E4C98B61FC6F3 /* HTMLElementAdjustment.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C618773779D9872AB103150F17206DAC /* NYTPhotosOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 479D169385FBF00E760D95C2603F7B03 /* NYTPhotosOverlayView.m */; };
-		C631A9B04B3E601BAF938152254FE6D6 /* CSSStructuralPseudoSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7949BEF32C7D04CD97BA091D1EBAF428 /* CSSStructuralPseudoSelectors.m */; };
+		C61ABC8BAD1508C4C99F94142CF24314 /* CSSSelectorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 818C5EFCF7AC89BD302552B908AB5868 /* CSSSelectorParser.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		C6DD558984DBF077CDA7DBCC3C8519D0 /* HTMLTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = B24DBD501A696A19C5648F79373269D8 /* HTMLTreeWalker.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C929D661B38FCE3A377FE0376131D6B6 /* HTMLDOCTYPEToken.m in Sources */ = {isa = PBXBuildFile; fileRef = F0E7CF939C45A150B9E5C213C8A3D317 /* HTMLDOCTYPEToken.m */; };
 		C9BB9572D929D9F65BD27F9AB29562EB /* MGSwipeTableCell-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F082AD42F3B8362323B8C0FA2637FB3B /* MGSwipeTableCell-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA0D37AE5433954573D3E37771CDDBFA /* AFURLResponseSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = E98B4A41FAE59FB244A187F044860FD4 /* AFURLResponseSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CB264BE6B2C3F2F7A20449B435C5A0B9 /* NSCharacterSet+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F907E869C9306CE17C15269BE3CDB1 /* NSCharacterSet+HTMLKit.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		CBCF07999909DFC7FDCC923063B5D514 /* HTMLParser+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DD098B3CC34CA97D32D269D9DF56FC7 /* HTMLParser+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CC72AC7921142AEA50CE7CDD778FEB45 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D5D78D0927F3DDDB1C3669EA340C21 /* MobileCoreServices.framework */; };
 		CC85AED975030AF662CA3FCF10B20802 /* HTMLRange+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EE4B822620CC4BC6ACA2D460611ACA /* HTMLRange+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		D0F5B90F4C5C1CD92937B38E607C085B /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A6AF2F8E7BAF3AE8DEA14DFCAB142477 /* AFURLResponseSerialization.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D3D3D9470CC251A20DF75A5623AE3976 /* CSSPseudoClassSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C710F0A122DD22EE44C0C138F3068F3 /* CSSPseudoClassSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D69A6A7FF5C56CD3912779E69366B5DC /* HTMLRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 16A705FE905B50A092CD61F5547A63E9 /* HTMLRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D8673935AE2F4E568F353F2D77A6DBB7 /* CSSPseudoFunctionSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 960B9934B33F47224C20ACDDBD38A95F /* CSSPseudoFunctionSelector.m */; };
 		D95391EB453FEA9E51AAF4BFEF719B8E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658B70333C43EC7AF7FFBEE686D0710 /* Foundation.framework */; };
+		D9E6082F773D4655E30F2353C847709B /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CB19E8E3028FFACFB601A36B576D9E /* HTMLDocumentType.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		DAC5814F387EA2F61D11041BB468CF1C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9694C898A5EABBDDB5B734D48A0B03 /* UIKit.framework */; };
 		DB983D6B4F3EEF8CFF7852BFD09F0A90 /* HTMLDOMUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0158C7BFB7ADEC3474D734987E125023 /* HTMLDOMUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		DD340F7F2E2D3DB97FE1D136568C3D0D /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2115BAAF8B7232C858B70EF7CB31BF37 /* HTMLComment.m */; };
 		E0127808A60A18A4B6703EE0D79B1354 /* NYTPhotoViewerCloseButtonX@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA9CB64366F315C25C1F20457438B9 /* NYTPhotoViewerCloseButtonX@3x.png */; };
 		E02BBF6E1796237C6963F735B8F6FD65 /* NYTPhotosViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A9CED06B430046378106B1C1AEA04743 /* NYTPhotosViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E081AB39EAB993213A37AE90019424F7 /* RSKImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F367F4C5AC590802A7031BABCB2926 /* RSKImageScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E08438C1041A50BD7DF353A1B3AD699D /* HTMLElementTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A27D8D329C807C7B1491E492A9AD7192 /* HTMLElementTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E30D5FE32CF0ED3C633EE3DEA7084782 /* HTMLDocumentFragment.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7575EF8AD9CE244A9D7DB2CDC506CF /* HTMLDocumentFragment.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E4971E481764EB00FDEA72D8DB8E1D44 /* NYTPhotoTransitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0F751152229C27AA579D3F61B3C559 /* NYTPhotoTransitionController.m */; };
 		E4BF47046BA4675E1DA2F34893947702 /* MGSwipeButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C14D012E7F73D07FE16DF1C6653468F /* MGSwipeButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E5BD95AB9698817005392D50FFD1000A /* CSSPseudoClassSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC8D6A73D448EB05C8D2B19137F7CD /* CSSPseudoClassSelector.m */; };
-		E5CD5C797956697DDCC98A3EAC7E99E3 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4578A858A1B01ABF90B1AFE624DD5 /* AFURLRequestSerialization.m */; };
 		E8CDC875E4D7E51B60A1AE1D8C1BED9C /* NYTPhotoCaptionViewLayoutWidthHinting.h in Headers */ = {isa = PBXBuildFile; fileRef = 127F6EB9453E886E78C972DB43AA82B6 /* NYTPhotoCaptionViewLayoutWidthHinting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E936BA25E80A8B604710ABB30ACFD8A7 /* TTTAttributedLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = F701984BD53A76E47EB12B3C5EDB4501 /* TTTAttributedLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E94ED1978BAA4BEF36F5F4180BAE903F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DF4E16913780CBD0432C0EE95C982465 /* HTMLNode.m */; };
-		E999B540182C6497EADC6860FB856CC3 /* NYTPhotoViewer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C6073808FC58FABAD9491F662C36E910 /* NYTPhotoViewer-dummy.m */; };
-		EA23726556D213DB485BD1791C7164CF /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A7459323BE424B334DBE5C82D0EE10 /* AFNetworkActivityIndicatorManager.m */; };
 		EAF6A2BD87CBEC03E30A2E7F09418C2A /* HTMLKitErrorDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C796731E14CF79251B32B295AC5A321 /* HTMLKitErrorDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ED90797D62A4E44FC3AE0DBC6B35C645 /* HTMLParseErrorToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 573A4918D899FB720E1A77AD6AADC23B /* HTMLParseErrorToken.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		EE47E37E2C0E988C9D99AB2432F21A0D /* HTMLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D80432F024200788843A5FA78F13BD7 /* HTMLToken.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F0B7EE44EC0A76CE04E1BC5E191DF6A6 /* NSBundle+NYTPhotoViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E1A4BCCC2A968FCD4485B6084D89A3 /* NSBundle+NYTPhotoViewer.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F1199E40BF416FC1ACA2DDCD7B2E23A1 /* UIImage+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = A53B17960ED02AC0CD02610F04EFCE18 /* UIImage+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F1A4FB8FFCA07220C16D6686DBFA4928 /* HTMLTagToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2DC4F7DF346596D53F408D3AE92A0 /* HTMLTagToken.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F264F0860878BB44EF36C309DFB80B58 /* RSKTouchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 06693EB71E3523DC5EDBE0E4A1C6DC92 /* RSKTouchView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F26CD9A1DF452688BF3C98BBA9090F92 /* AFURLRequestSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = A7A7C0BABA2F84940BC830CFE0E4BEE8 /* AFURLRequestSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F30950E63F3D8D6C07FFB50C5971116E /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1472FCFFD268D999B4B2A12CFFC90D14 /* AFSecurityPolicy.m */; };
+		F3288784B212187449E4258DB9356EDF /* HTMLStackOfOpenElements.m in Sources */ = {isa = PBXBuildFile; fileRef = D85702AC7B4DA54112A6A68E6077907A /* HTMLStackOfOpenElements.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F34C265960DF1E85DCA53F7BF8BF1197 /* HTMLDOM.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B020BB2989FC2296EFFB80802C7759A /* HTMLDOM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3C4F910AE1A12E7ABE2FBFAC6CC5E1F /* NYTPhotosOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = A4BEF5B52BE328059A9777D2935FEE60 /* NYTPhotosOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F3CA30C6EFB1AF30E95C91B178465458 /* UIApplication+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7219448FBFB431220EC0775A692EE422 /* UIApplication+RSKImageCropper.m */; };
-		F53A1B33D201EB24D812325F2B7397FF /* CSSAttributeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CDE926265BC13B1668A5FE603FCEAFC /* CSSAttributeSelector.m */; };
 		F54879EEAE223E90AC9674197E6B1ADE /* AFImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C3FBA033892599147C736AED2994F2F /* AFImageDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F54BDFC5F930B0D8E3F4745D6204115C /* CSSSelectorBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = B072815931656EE52F466C110BFC4323 /* CSSSelectorBlock.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F5AF7D7C65929CD8D8E3F3D3BC8850F8 /* CSSPseudoFunctionSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 960B9934B33F47224C20ACDDBD38A95F /* CSSPseudoFunctionSelector.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F7C75909CAA3A3B28EB0464F791B559E /* CSSAttributeSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 733B62E9BE206DAEE238AC3102B18BEC /* CSSAttributeSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA5623B686387F57A60252AC93CEC678 /* CSSNthExpressionParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 926C781FE6013F171EAB2A0B830802D4 /* CSSNthExpressionParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FB2DF9C1CB25C940A964E8CFC6CE96DA /* HTMLNodeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D70176D3C6D73FCB401B3737A8FE6EFD /* HTMLNodeFilter.m */; };
+		FB28349062C0DB8B1E6B015DC9AF7309 /* HTMLText.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C746CF5FCE2BBA95FA1256D4CFA9B8E /* HTMLText.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		FDB9EB7855A47CC5D595527F4B98AD30 /* HTMLKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2627A4208448C7439EE2747F4C590F5F /* HTMLKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FECBD8251E86C223E8193ACE963D0484 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CB19E8E3028FFACFB601A36B576D9E /* HTMLDocumentType.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1442,7 +1442,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 782AD3C225DF6AF102A6DB24AFC59B5F /* Build configuration list for PBXNativeTarget "MGSwipeTableCell" */;
 			buildPhases = (
-				E5160283030B58DF7DFFA1BDC106605C /* Sources */,
+				119E444BE35160E7AD3F82008DEF1E29 /* Sources */,
 				5F86A802147CAEDCD5D2F69F78B5A758 /* Frameworks */,
 				60763A650B6C8007ECC91753A617BAB1 /* Headers */,
 			);
@@ -1459,7 +1459,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3565844D833CBD5A14CFADB8CF2D559E /* Build configuration list for PBXNativeTarget "HTMLKit" */;
 			buildPhases = (
-				93F9F3CF718C4A2F9142241E10964AC1 /* Sources */,
+				AC874DDF8E96DB0EF79872209A5B8837 /* Sources */,
 				4030AD47D03A9D03E9D0D635BCDCB178 /* Frameworks */,
 				4E3CE49252A6F2C43D1258875C08E18E /* Headers */,
 			);
@@ -1476,7 +1476,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BE17412EAFC0423EA482DB389779961 /* Build configuration list for PBXNativeTarget "FLAnimatedImage" */;
 			buildPhases = (
-				4AAEDB21198D433CF90C7195F1F02A6F /* Sources */,
+				F6ECFF8634EC41F49D06A0BC804846ED /* Sources */,
 				5C71CF445F3725E13BFDAC5D84B69C3A /* Frameworks */,
 				FA64BDF07F033D7C01125C73FCCFEC87 /* Headers */,
 			);
@@ -1493,7 +1493,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B7BAB78F1B671AED7FC3B9FD40A30A24 /* Build configuration list for PBXNativeTarget "TTTAttributedLabel" */;
 			buildPhases = (
-				568AB9B8AE94695D12583D78D891E044 /* Sources */,
+				28C628C856FC4F1D3BDF3C833F345359 /* Sources */,
 				6D589A4B4B0EA3AEF2CC1A4F53116D06 /* Frameworks */,
 				009224E491EABEC643F59719E5FB9E9D /* Headers */,
 			);
@@ -1510,7 +1510,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D1784BFD343C079DEA7C31A03A96DDD0 /* Build configuration list for PBXNativeTarget "NYTPhotoViewer" */;
 			buildPhases = (
-				8EFD939F1932E0DC6B5FFFF861975E84 /* Sources */,
+				1EA34624E1675823D6FCC558E6A38ECF /* Sources */,
 				E6B54AB612C543C48517321A6B813F64 /* Frameworks */,
 				356D26F059DE15B3EC7FD6845C8D90E2 /* Resources */,
 				D4DC23B1586C9D5B35E024E38C5B1949 /* Headers */,
@@ -1530,7 +1530,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2A4457BE26640C20FCFCD8D121109F1B /* Build configuration list for PBXNativeTarget "RSKImageCropper" */;
 			buildPhases = (
-				B9C184064C0A1CE6549107014D015599 /* Sources */,
+				51B9FA5F21CC4C340FE2881F16592085 /* Sources */,
 				D60939753B79AAABADF0001B9596FA11 /* Frameworks */,
 				0192D9895E3FE86A9DEECD3F3E603E36 /* Headers */,
 				43DD22C6BBC0D0AEAF49DA4D8DBBC482 /* Resources */,
@@ -1565,7 +1565,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25909703FE8BF472066161C98342A956 /* Build configuration list for PBXNativeTarget "AFNetworking" */;
 			buildPhases = (
-				4CC771DB3008E2E9E454A6212D41A5E9 /* Sources */,
+				BB7B3DF35090256CDF5E7EE965AD1EEA /* Sources */,
 				6DE9B3A8689C804A43D970F1265675A4 /* Frameworks */,
 				437E0B8BDA100834FD20877E5FCDC59D /* Headers */,
 			);
@@ -1645,45 +1645,55 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4AAEDB21198D433CF90C7195F1F02A6F /* Sources */ = {
+		119E444BE35160E7AD3F82008DEF1E29 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13ADE84F672E4DF94AB419484FFAEAFA /* FLAnimatedImage-dummy.m in Sources */,
-				8C1771BECC0DA6C28D8EB206F8D62D67 /* FLAnimatedImage.m in Sources */,
-				B6533EFF69AA9E2AB73837FD8950F1C8 /* FLAnimatedImageView.m in Sources */,
+				567EC7879A76B4F1FEFCB0EDC55D8EDB /* MGSwipeButton.m in Sources */,
+				6CA804342026C8DD0D47F82901AE587D /* MGSwipeTableCell-dummy.m in Sources */,
+				9885468AE032EB1CDE1B17390CB505BC /* MGSwipeTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4CC771DB3008E2E9E454A6212D41A5E9 /* Sources */ = {
+		1EA34624E1675823D6FCC558E6A38ECF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7099E4035C06D3116DA2586EFE563C0B /* AFAutoPurgingImageCache.m in Sources */,
-				939EF882233B22D0321A70F6DADED11F /* AFHTTPSessionManager.m in Sources */,
-				B46FE8C00C2CDDE0B4790FFD3DC961A4 /* AFImageDownloader.m in Sources */,
-				EA23726556D213DB485BD1791C7164CF /* AFNetworkActivityIndicatorManager.m in Sources */,
-				4C321BA8844AA4C44D4416CC6948DF2B /* AFNetworking-dummy.m in Sources */,
-				A12A3BC640B690479F345A49C6C48209 /* AFNetworkReachabilityManager.m in Sources */,
-				F30950E63F3D8D6C07FFB50C5971116E /* AFSecurityPolicy.m in Sources */,
-				E5CD5C797956697DDCC98A3EAC7E99E3 /* AFURLRequestSerialization.m in Sources */,
-				3C9E113B7712442B4BCB59AB7EEC2085 /* AFURLResponseSerialization.m in Sources */,
-				4C5DA96F7CAC26975EEEBD7450FF214D /* AFURLSessionManager.m in Sources */,
-				C257BE809D4C4357A8EB7118960E3143 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
-				8A1EB96C607F92E8AA20676F9A4BC7D9 /* UIButton+AFNetworking.m in Sources */,
-				6AB8F78680B3470391219F11D51A1DE7 /* UIImageView+AFNetworking.m in Sources */,
-				6595C6295B9EBBF40751A376239681FD /* UIProgressView+AFNetworking.m in Sources */,
-				4AA3A9FC9AAD94C226CA975946C9395B /* UIRefreshControl+AFNetworking.m in Sources */,
-				3345805C0D8E8D0726F7E5981DA61A5F /* UIWebView+AFNetworking.m in Sources */,
+				F0B7EE44EC0A76CE04E1BC5E191DF6A6 /* NSBundle+NYTPhotoViewer.m in Sources */,
+				B7FB02ABB0D22BF084491A5519885AA9 /* NYTPhotoCaptionView.m in Sources */,
+				68317223E5C3C74A1D08D51184C88866 /* NYTPhotoDismissalInteractionController.m in Sources */,
+				27FA97581AB0EA00F1A0A2D8064E0372 /* NYTPhotosDataSource.m in Sources */,
+				8C1A5E4DE27D20CF3B41ECA1C55D0700 /* NYTPhotosOverlayView.m in Sources */,
+				78387CACC4B430A812F60ABB9F87457F /* NYTPhotosViewController.m in Sources */,
+				42725DD5CF41007D81E86471D0677E14 /* NYTPhotoTransitionAnimator.m in Sources */,
+				3A6A2A46DCF39E71212799E36CF6571D /* NYTPhotoTransitionController.m in Sources */,
+				6A27F86E9BE71F5B4B19CCB21029BDEF /* NYTPhotoViewController.m in Sources */,
+				82811E294F0FA0C0135887F2D0744B6B /* NYTPhotoViewer-dummy.m in Sources */,
+				911687B3B61622A4BDA09E6DDF4101E5 /* NYTScalingImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		568AB9B8AE94695D12583D78D891E044 /* Sources */ = {
+		28C628C856FC4F1D3BDF3C833F345359 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F3662E60669AAF442F292B06E691231 /* TTTAttributedLabel-dummy.m in Sources */,
-				6FD8CE53F0BA564E9405243DF5FC2E7D /* TTTAttributedLabel.m in Sources */,
+				0DC0B21338D16FEE6E211D762C1B3B8E /* TTTAttributedLabel-dummy.m in Sources */,
+				16B72F73E8CF3ED099E5FADEC4C5C3B9 /* TTTAttributedLabel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		51B9FA5F21CC4C340FE2881F16592085 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				819E31E373A9E1A63C4B129A2691B4B8 /* CGGeometry+RSKImageCropper.m in Sources */,
+				9E4E43A9B3EE744364D6691BC60AA07B /* RSKImageCropper-dummy.m in Sources */,
+				5A0B0A6DCAD469D4C09D9E342A60E44F /* RSKImageCropViewController.m in Sources */,
+				9195BAB213ACCF65F939BFBA8F7502D7 /* RSKImageScrollView.m in Sources */,
+				68BF3AB1519F2EB32CFAE7EC4328832D /* RSKInternalUtility.m in Sources */,
+				BF989934D4A2D6ED0BBC6B726C7CCCD4 /* RSKTouchView.m in Sources */,
+				6BB3F14B7FF02A9612583E2A9A9F58C5 /* UIApplication+RSKImageCropper.m in Sources */,
+				1AD59E980FE9C21ADEF0B7A07129760C /* UIImage+RSKImageCropper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1695,102 +1705,92 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8EFD939F1932E0DC6B5FFFF861975E84 /* Sources */ = {
+		AC874DDF8E96DB0EF79872209A5B8837 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D0D11B8393705D61CCD650624097C08 /* NSBundle+NYTPhotoViewer.m in Sources */,
-				1FAD0537EFC009657E86B1DBBC028942 /* NYTPhotoCaptionView.m in Sources */,
-				6325799576BD712045303B5B4AAC0291 /* NYTPhotoDismissalInteractionController.m in Sources */,
-				0C951B49609F3C28AD52E268F334E2FC /* NYTPhotosDataSource.m in Sources */,
-				C618773779D9872AB103150F17206DAC /* NYTPhotosOverlayView.m in Sources */,
-				7E90B4B7E8340D89605D04B97D0AE8AD /* NYTPhotosViewController.m in Sources */,
-				979C399F8B6210B1B61F1C68582BAAD0 /* NYTPhotoTransitionAnimator.m in Sources */,
-				E4971E481764EB00FDEA72D8DB8E1D44 /* NYTPhotoTransitionController.m in Sources */,
-				85DDF26736256FF897F4D687F8D76F7C /* NYTPhotoViewController.m in Sources */,
-				E999B540182C6497EADC6860FB856CC3 /* NYTPhotoViewer-dummy.m in Sources */,
-				3A1D03BA8E27FC93876A2D85E0600AB5 /* NYTScalingImageView.m in Sources */,
+				C0045F233BE411FF02B6F5D79AFA1251 /* CSSAttributeSelector.m in Sources */,
+				6A46C3D107178B91375F1474D9901067 /* CSSCombinatorSelector.m in Sources */,
+				789A5880D9CB9A3BC1CE294A3F2D8929 /* CSSCompoundSelector.m in Sources */,
+				8DF2D0F1974242A1EB5099DE37B4DF5B /* CSSInputStream.m in Sources */,
+				41CC9262303667F6B5981BE7A44538DB /* CSSNthExpressionParser.m in Sources */,
+				937A78F83DE43F33DCB9845A4E5B6DAC /* CSSNthExpressionSelector.m in Sources */,
+				0CECA05779F9E0373C2750E0AAF601D7 /* CSSPseudoClassSelector.m in Sources */,
+				F5AF7D7C65929CD8D8E3F3D3BC8850F8 /* CSSPseudoFunctionSelector.m in Sources */,
+				B4728C5ED7E151A4BE306BE0889EA8EC /* CSSSelector.m in Sources */,
+				F54BDFC5F930B0D8E3F4745D6204115C /* CSSSelectorBlock.m in Sources */,
+				C61ABC8BAD1508C4C99F94142CF24314 /* CSSSelectorParser.m in Sources */,
+				363A4FF89784E10D778D456C4A5E2C67 /* CSSSelectors.m in Sources */,
+				AB0E8624B6CF27117F579614ED2B102C /* CSSStructuralPseudoSelectors.m in Sources */,
+				A42401EEEFDBCBCE271140EEAB93B1A4 /* CSSTypeSelector.m in Sources */,
+				3A9B992EFCAD2975BDEAD099B8A84577 /* HTMLCharacterData.m in Sources */,
+				BC6232FE673C59CE021EAC82F6DC4C9E /* HTMLCharacterToken.m in Sources */,
+				60AD3AD2AC6602454D700D971B2E8BC9 /* HTMLComment.m in Sources */,
+				8D24C29031DE2F5687396A83BCC94CF9 /* HTMLCommentToken.m in Sources */,
+				23ECB8E58B5B767808BCEFFCF289B7A6 /* HTMLDOCTYPEToken.m in Sources */,
+				4F8F9F4724430CE4B1BDD2DC89AC7658 /* HTMLDocument.m in Sources */,
+				83F51437A474C566D806D726A5BDFEB8 /* HTMLDocumentFragment.m in Sources */,
+				D9E6082F773D4655E30F2353C847709B /* HTMLDocumentType.m in Sources */,
+				570BA6BE3110B5DEF2D1B8D6D330EF9C /* HTMLDOMTokenList.m in Sources */,
+				2AC8E1F5CC50431004010A65099FB092 /* HTMLDOMUtils.m in Sources */,
+				AD591832F30795AF18F990AA96D5CB3D /* HTMLElement.m in Sources */,
+				6CF5FD42481C2457107C2F5DB553637E /* HTMLEOFToken.m in Sources */,
+				8035B85256F562399A3B7BC2E00507E8 /* HTMLInputStreamReader.m in Sources */,
+				B2AD74A9097ADD8B4D2CC968044DF94D /* HTMLKit-dummy.m in Sources */,
+				526DDE59530068730AA61FD362D2EE85 /* HTMLKitDOMExceptions.m in Sources */,
+				66BB90BAB921026D817A3CD115CD4FEE /* HTMLListOfActiveFormattingElements.m in Sources */,
+				90FE592BAEA836259222A08BE7B072D1 /* HTMLMarker.m in Sources */,
+				6E0F2CB83D128036447959E7C1262591 /* HTMLNode.m in Sources */,
+				07E5639C1B1FF1A5B9F0F708A3314D75 /* HTMLNodeFilter.m in Sources */,
+				69DC42F75E30CA26F5A95222919F75CC /* HTMLNodeIterator.m in Sources */,
+				490E2DF52B94110CA8F47CA406DD5338 /* HTMLNodeTraversal.m in Sources */,
+				08811CEE21D0C3135D948F9F40FADF71 /* HTMLOrderedDictionary.m in Sources */,
+				ED90797D62A4E44FC3AE0DBC6B35C645 /* HTMLParseErrorToken.m in Sources */,
+				B0AE94929E6EE28C10C4C543A000554F /* HTMLParser.m in Sources */,
+				0700243B30EEFDCFFEEBC79DA02D6528 /* HTMLRange.m in Sources */,
+				F3288784B212187449E4258DB9356EDF /* HTMLStackOfOpenElements.m in Sources */,
+				F1A4FB8FFCA07220C16D6686DBFA4928 /* HTMLTagToken.m in Sources */,
+				9E5B0D7F498FF8B7D84F3CEDE04DA7EA /* HTMLTemplate.m in Sources */,
+				FB28349062C0DB8B1E6B015DC9AF7309 /* HTMLText.m in Sources */,
+				EE47E37E2C0E988C9D99AB2432F21A0D /* HTMLToken.m in Sources */,
+				C3DC34DD4D2EC0ADB1DDE35584AF82FD /* HTMLTokenizer.m in Sources */,
+				21F07278665B71617EC5089F3BB053E5 /* HTMLTokenizerEntities.m in Sources */,
+				002AB6FC31178751DD4383A67B75D95E /* HTMLTreeWalker.m in Sources */,
+				CB264BE6B2C3F2F7A20449B435C5A0B9 /* NSCharacterSet+HTMLKit.m in Sources */,
+				4970BA41F3C8A20F8D3B154E0E96F184 /* NSString+HTMLKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		93F9F3CF718C4A2F9142241E10964AC1 /* Sources */ = {
+		BB7B3DF35090256CDF5E7EE965AD1EEA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F53A1B33D201EB24D812325F2B7397FF /* CSSAttributeSelector.m in Sources */,
-				64034019BD874E8E6491F911D1CECF45 /* CSSCombinatorSelector.m in Sources */,
-				9EEB270D327F9912ADAD604F3E2C421E /* CSSCompoundSelector.m in Sources */,
-				4D5D9EC9BFDB7F92CBDA018CB74C9B0C /* CSSInputStream.m in Sources */,
-				83BC42C39A4CFD06704518D182698999 /* CSSNthExpressionParser.m in Sources */,
-				6D1AE3AD75CE9591EC2227777DF3273E /* CSSNthExpressionSelector.m in Sources */,
-				E5BD95AB9698817005392D50FFD1000A /* CSSPseudoClassSelector.m in Sources */,
-				D8673935AE2F4E568F353F2D77A6DBB7 /* CSSPseudoFunctionSelector.m in Sources */,
-				9240807F6B3871364E6A2A16549F00D9 /* CSSSelector.m in Sources */,
-				50179F203593EC002F0425C45DE7C786 /* CSSSelectorBlock.m in Sources */,
-				849FF124E3DE25AFEEFE60B05F20F3EF /* CSSSelectorParser.m in Sources */,
-				64D0D0A473FFD467CC2D768581AB9A72 /* CSSSelectors.m in Sources */,
-				C631A9B04B3E601BAF938152254FE6D6 /* CSSStructuralPseudoSelectors.m in Sources */,
-				12AE254B80805E215A40412C7AD553EC /* CSSTypeSelector.m in Sources */,
-				6B09CC266CC15DA34F6EB04979CADCBD /* HTMLCharacterData.m in Sources */,
-				1D4D99E8F476591E37D276F410351CFD /* HTMLCharacterToken.m in Sources */,
-				DD340F7F2E2D3DB97FE1D136568C3D0D /* HTMLComment.m in Sources */,
-				4DA1E3F68C226B0E714B7D6FDB1E790D /* HTMLCommentToken.m in Sources */,
-				C929D661B38FCE3A377FE0376131D6B6 /* HTMLDOCTYPEToken.m in Sources */,
-				BD6B1B9BE888A2B288A09F6E73B88D0F /* HTMLDocument.m in Sources */,
-				C4383137DE4310785C6314BAC483BB93 /* HTMLDocumentFragment.m in Sources */,
-				FECBD8251E86C223E8193ACE963D0484 /* HTMLDocumentType.m in Sources */,
-				B8268C62BA593DBAB07027780007B3DA /* HTMLDOMTokenList.m in Sources */,
-				6DB790C2E98FEA8D3AD6D76420D504F6 /* HTMLDOMUtils.m in Sources */,
-				4D69320E8C9603DAD5FB8FA252F39DE2 /* HTMLElement.m in Sources */,
-				5F059790A1AC08184EDF7F69331C4CF3 /* HTMLEOFToken.m in Sources */,
-				5F8AFCEED9A5289FB372AB03A97C44E5 /* HTMLInputStreamReader.m in Sources */,
-				4863FF6DD4B204BC779E432E41D42DF6 /* HTMLKit-dummy.m in Sources */,
-				7346E4C48D763F1066074180B1CAFC78 /* HTMLKitDOMExceptions.m in Sources */,
-				1BBF07D075167145AC240AAA7DD0FE71 /* HTMLListOfActiveFormattingElements.m in Sources */,
-				1DCCC04D5C075AAA96B35409CC34CC19 /* HTMLMarker.m in Sources */,
-				E94ED1978BAA4BEF36F5F4180BAE903F /* HTMLNode.m in Sources */,
-				FB2DF9C1CB25C940A964E8CFC6CE96DA /* HTMLNodeFilter.m in Sources */,
-				9350C6FB94D1E50F17745C1715F56BB2 /* HTMLNodeIterator.m in Sources */,
-				85157EAC66767FE12764FC715A6BCA51 /* HTMLNodeTraversal.m in Sources */,
-				BB25A1A6882E6304700266BA1870F467 /* HTMLOrderedDictionary.m in Sources */,
-				85D42E9EF7F6CB9DCD834EF0364A30BB /* HTMLParseErrorToken.m in Sources */,
-				56955A893D3B0B94E74A8C9117BFE6A7 /* HTMLParser.m in Sources */,
-				0D166F60D1ABF48A02CE63D8C33548D9 /* HTMLRange.m in Sources */,
-				4DABF3C6277FD53A8DA2EDB0BD8EAB29 /* HTMLStackOfOpenElements.m in Sources */,
-				0EBB45E9B07385B940C6A74AF62CAF88 /* HTMLTagToken.m in Sources */,
-				B8BC9C8BE49CE6B2D9AA488F66FC3C88 /* HTMLTemplate.m in Sources */,
-				C27EDC31F29522B5B89E9E8FE589515A /* HTMLText.m in Sources */,
-				567050257C96324FBEC4145CA8B66A59 /* HTMLToken.m in Sources */,
-				6BC010D0BE74DB76857AEBF5F52A6A05 /* HTMLTokenizer.m in Sources */,
-				BF8C97D476C799A349FBCDD79301CF30 /* HTMLTokenizerEntities.m in Sources */,
-				BDFD9B4FB3359883CABEF8B747F3F3C0 /* HTMLTreeWalker.m in Sources */,
-				61CD0D746A44B2D97A636BD8585CC0FD /* NSCharacterSet+HTMLKit.m in Sources */,
-				A2EFAEABB5CA98D4CF32700231BBD139 /* NSString+HTMLKit.m in Sources */,
+				AC672F03F3BE5707DA55FC15853DB31A /* AFAutoPurgingImageCache.m in Sources */,
+				27F59382494FBEF721F042019F57EC00 /* AFHTTPSessionManager.m in Sources */,
+				C1D8AE0EF03D81A5091740E542232A77 /* AFImageDownloader.m in Sources */,
+				1619A23BDCCBE5C7F6035D72B6179E39 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				13AEBF219F3339D30B1B3ED5B9FD0FC0 /* AFNetworking-dummy.m in Sources */,
+				61C83224C02B5B9DEBD5A065226E69C3 /* AFNetworkReachabilityManager.m in Sources */,
+				469A89690D06CBFF3E79AA14FEBEE9FB /* AFSecurityPolicy.m in Sources */,
+				1C43E9A84EB78F7460A3CC71D8FFB09B /* AFURLRequestSerialization.m in Sources */,
+				D0F5B90F4C5C1CD92937B38E607C085B /* AFURLResponseSerialization.m in Sources */,
+				69432FB506E18C42BC1ACCD9297E38EA /* AFURLSessionManager.m in Sources */,
+				AB6044A5320F29D9A4461D98F7B78CDF /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				6BB010FC9C564D2C156185D31680FA57 /* UIButton+AFNetworking.m in Sources */,
+				C40394F6CA54DD1A37FCBB8FC9E09B04 /* UIImageView+AFNetworking.m in Sources */,
+				516EE45BABBA91A148342108185CDB6A /* UIProgressView+AFNetworking.m in Sources */,
+				ABB8B8CABB1DE8BE2415E2EF467339D3 /* UIRefreshControl+AFNetworking.m in Sources */,
+				63F7A4E31C91CC30D2E960BC52E04F1E /* UIWebView+AFNetworking.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B9C184064C0A1CE6549107014D015599 /* Sources */ = {
+		F6ECFF8634EC41F49D06A0BC804846ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BA46B05E51D35FC6240DFA6A0DFF386 /* CGGeometry+RSKImageCropper.m in Sources */,
-				7C83A9CB826CFE9D6EDFE5312CC87EE7 /* RSKImageCropper-dummy.m in Sources */,
-				1EC9974A21C01340359ACA8DDD863B27 /* RSKImageCropViewController.m in Sources */,
-				9F161A42734F804DE9ADBD80B817E583 /* RSKImageScrollView.m in Sources */,
-				3146A932B1F02BD3B5C7AB39CD1F2193 /* RSKInternalUtility.m in Sources */,
-				2530676EFF64D0A7B67A998728936EB2 /* RSKTouchView.m in Sources */,
-				F3CA30C6EFB1AF30E95C91B178465458 /* UIApplication+RSKImageCropper.m in Sources */,
-				70B6221D4A678293FF883C263586D761 /* UIImage+RSKImageCropper.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E5160283030B58DF7DFFA1BDC106605C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				02C3B5C4CB40FFA9F7D5BF21A06E062F /* MGSwipeButton.m in Sources */,
-				181A9C4C01FE49B42A1F01A506873F56 /* MGSwipeTableCell-dummy.m in Sources */,
-				1CDA9CF3831C4BE7AC9F922031EDB667 /* MGSwipeTableCell.m in Sources */,
+				8C91FEF912E94A00FD72A53AAF6CEA62 /* FLAnimatedImage-dummy.m in Sources */,
+				AC7C5398E9B98EEEEE5B0A971EC2B345 /* FLAnimatedImage.m in Sources */,
+				62F1FA5E9A217A8A7C8561D813B51D5C /* FLAnimatedImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
