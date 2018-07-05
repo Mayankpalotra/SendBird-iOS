@@ -30,7 +30,7 @@
  *  new properties with channel manager
  */
 @property (strong, atomic, nonnull) NSMutableArray<SBDOpenChannel *> *channels;
-@property (strong, atomic, nullable) QueryCollection *queryCollection;
+@property (strong, nonatomic, nullable) QueryCollection *queryCollection;
 
 @end
 
@@ -88,6 +88,13 @@
     
     self.navItem.leftBarButtonItems = @[negativeLeftSpacer, leftBackItem];
     self.navItem.rightBarButtonItems = @[negativeRightSpacer, rightCreateOpenChannelItem];
+}
+
+- (QueryCollection *)queryCollection {
+    if (_queryCollection == nil) {
+        _queryCollection = [self createQueryCollection];
+    }
+    return _queryCollection;
 }
 
 - (QueryCollection *)createQueryCollection {
