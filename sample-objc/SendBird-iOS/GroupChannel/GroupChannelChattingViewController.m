@@ -47,15 +47,9 @@
 @property (strong, nonatomic) NYTPhotosViewController *photosViewController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *navigationBarHeight;
 
-//@property (atomic) long long minMessageTimestamp;
-
-//@property (strong, nonatomic) NSArray<SBDBaseMessage *> *dumpedMessages;
-//@property (atomic) BOOL cachedMessage;
-
 /**
  *  new properties with message manager
  */
-@property (strong, atomic, nonnull) NSMutableArray <SBDBaseMessage *> *messages;
 @property (strong, nonatomic, nullable) MessageCollection *messageCollection;
 @property (atomic, getter=isFirstLoad) BOOL firstLoad;
 
@@ -67,7 +61,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self != nil) {
         _delegateIdentifier = [[NSUUID UUID] UUIDString];
-        _messages = [NSMutableArray array];
     }
     return self;
 }
@@ -77,31 +70,10 @@
     
     [self configureView];
 
-//    self.delegateIdentifier = self.description;
     [SBDMain addChannelDelegate:self identifier:self.delegateIdentifier];
     [ConnectionManager addConnectionObserver:self];
-    
-//    self.dumpedMessages = [Utils loadMessagesInChannel:self.channel.channelUrl];
-    
     self.chattingView.delegate = self;
-//    self.minMessageTimestamp = LLONG_MAX;
-//    self.cachedMessage = NO;
-//
-//    if (self.dumpedMessages.count > 0) {
-//        [self.chattingView.messages addObjectsFromArray:self.dumpedMessages];
-//
-//        [self.chattingView.chattingTableView reloadData];
-//        [self.chattingView.chattingTableView layoutIfNeeded];
-//
-//        CGFloat viewHeight = [[UIScreen mainScreen] bounds].size.height - self.navigationBarHeight.constant - self.chattingView.inputContainerViewHeight.constant - 10;
-//        CGSize contentSize = self.chattingView.chattingTableView.contentSize;
-//
-//        if (contentSize.height > viewHeight) {
-//            CGPoint newContentOffset = CGPointMake(0, contentSize.height - viewHeight);
-//            [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
-//        }
-//        self.cachedMessage = YES;
-//    }
+
     
     if ([SBDMain getConnectState] == SBDWebSocketClosed) {
         [ConnectionManager loginWithCompletionHandler:^(SBDUser * _Nullable user, NSError * _Nullable error) {
@@ -112,7 +84,9 @@
     }
     else {
         self.firstLoad = YES;
-        [self loadPreviousMessage:YES];
+        self.messageCollection.delegate = self;
+        self.isLoading = YES;
+        [self.messageCollection loadPreviousMessagesFromNow];
     }
 }
 
@@ -178,11 +152,6 @@
     self.messageCollection.delegate = nil;
 }
 
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    [Utils dumpMessages:self.chattingView.messages resendableMessages:self.chattingView.resendableMessages resendableFileData:self.chattingView.resendableFileData preSendMessages:self.chattingView.preSendMessages channelUrl:self.channel.channelUrl];
-//}
-
 - (void)keyboardDidShow:(NSNotification *)notification {
     self.keyboardShown = YES;
     NSDictionary* keyboardInfo = [notification userInfo];
@@ -203,10 +172,6 @@
         [self.view layoutIfNeeded];
         [self.chattingView scrollToBottomWithForce:NO];
     });
-}
-
-- (void)applicationWillTerminate:(NSNotification *)notification {
-//    [Utils dumpMessages:self.chattingView.messages resendableMessages:self.chattingView.resendableMessages resendableFileData:self.chattingView.resendableFileData preSendMessages:self.chattingView.preSendMessages channelUrl:self.channel.channelUrl];
 }
 
 - (void)close {
@@ -238,144 +203,6 @@
     [vc addAction:closeAction];
     
     [self presentViewController:vc animated:YES completion:nil];
-}
-
-- (MessageCollection *)messageCollection {
-    if (_messageCollection == nil) {
-        _messageCollection = [MessageManager createMessageCollectionWithChannelUrl:self.channel.channelUrl];
-    }
-    return _messageCollection;
-}
-
-- (void)loadPreviousMessage:(BOOL)initial {
-    NSTimeInterval timestamp;
-    if (initial) {
-        self.hasNext = YES;
-        self.messageCollection.delegate = self;
-        timestamp = [[NSDate date] timeIntervalSince1970];
-    }
-    else {
-        timestamp = self.messages.firstObject.createdAt / 1000;
-    }
-    
-    if (!self.hasNext) {
-        return;
-    }
-    
-    if (self.isLoading) {
-        return;
-    }
-    
-    self.isLoading = YES;
-    [self.messageCollection loadPreviousMessagesFromReferenceTime:timestamp];
-//    long long timestamp = 0;
-//    if (initial) {
-//        self.hasNext = YES;
-//        timestamp = LLONG_MAX;
-//    }
-//    else {
-//        timestamp = self.minMessageTimestamp;
-//    }
-//
-//    if (self.hasNext == NO) {
-//        return;
-//    }
-//
-//    if (self.isLoading) {
-//        return;
-//    }
-//
-//    self.isLoading = YES;
-//
-//    [self.channel getPreviousMessagesByTimestamp:timestamp limit:30 reverse:!initial messageType:SBDMessageTypeFilterAll customType:@"" completionHandler:^(NSArray<SBDBaseMessage *> * _Nullable messages, SBDError * _Nullable error) {
-//        if (error != nil) {
-//            self.isLoading = NO;
-//
-//            return;
-//        }
-//
-////        self.cachedMessage = NO;
-//
-//        if (messages.count == 0) {
-//            self.hasNext = NO;
-//        }
-//
-//        if (initial) {
-//            [self.chattingView.messages removeAllObjects];
-//
-//            for (SBDBaseMessage *message in messages) {
-//                [self.chattingView.messages addObject:message];
-//
-//                if (self.minMessageTimestamp > message.createdAt) {
-//                    self.minMessageTimestamp = message.createdAt;
-//                }
-//            }
-//
-//            NSArray *resendableMessagesKeys = [self.chattingView.resendableMessages allKeys];
-//            for (NSString *key in resendableMessagesKeys) {
-//                [self.chattingView.messages addObject:self.chattingView.resendableMessages[key]];
-//            }
-//
-//            NSArray *preSendMessagesKeys = [self.chattingView.preSendMessages allKeys];
-//            for (NSString *key in preSendMessagesKeys) {
-//                [self.chattingView.messages addObject:self.chattingView.preSendMessages[key]];
-//            }
-//
-//            [self.channel markAsRead];
-//
-//            self.chattingView.initialLoading = YES;
-//
-//            if (messages.count > 0) {
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self.chattingView.chattingTableView reloadData];
-//                    [self.chattingView.chattingTableView layoutIfNeeded];
-//
-//                    CGFloat viewHeight;
-//                    if (self.keyboardShown) {
-//                        viewHeight = self.chattingView.chattingTableView.frame.size.height - 10;
-//                    }
-//                    else {
-//                        viewHeight = [[UIScreen mainScreen] bounds].size.height - self.navigationBarHeight.constant - self.chattingView.inputContainerViewHeight.constant - 10;
-//                    }
-//
-//                    CGSize contentSize = self.chattingView.chattingTableView.contentSize;
-//
-//                    if (contentSize.height > viewHeight) {
-//                        CGPoint newContentOffset = CGPointMake(0, contentSize.height - viewHeight);
-//                        [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
-//                    }
-//                });
-//            }
-//
-//            self.chattingView.initialLoading = NO;
-//            self.isLoading = NO;
-//        }
-//        else {
-//            if (messages.count > 0) {
-//                for (SBDBaseMessage *message in messages) {
-//                    [self.chattingView.messages insertObject:message atIndex:0];
-//
-//                    if (self.minMessageTimestamp > message.createdAt) {
-//                        self.minMessageTimestamp = message.createdAt;
-//                    }
-//                }
-//
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    CGSize contentSizeBefore = self.chattingView.chattingTableView.contentSize;
-//
-//                    [self.chattingView.chattingTableView reloadData];
-//                    [self.chattingView.chattingTableView layoutIfNeeded];
-//
-//                    CGSize contentSizeAfter = self.chattingView.chattingTableView.contentSize;
-//
-//                    CGPoint newContentOffset = CGPointMake(0, contentSizeAfter.height - contentSizeBefore.height);
-//                    [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
-//                });
-//            }
-//
-//            self.isLoading = NO;
-//        }
-//    }];
 }
 
 - (void)sendUrlPreview:(NSURL * _Nonnull)url message:(NSString * _Nonnull)message tempModel:(OutgoingGeneralUrlPreviewTempModel * _Nonnull)aTempModel {
@@ -567,6 +394,160 @@
     }] resume];
 }
 
+#pragma mark - Message Manager
+- (MessageCollection *)messageCollection {
+    if (_messageCollection == nil) {
+        _messageCollection = [self createMessageCollection];
+    }
+    return _messageCollection;
+}
+
+- (MessageCollection *)createMessageCollection {
+    NSDictionary *filter = @{};
+    MessageCollection *collection = [MessageManager createMessageCollectionWithChannelUrl:self.channel.channelUrl filter:filter];
+    return collection;
+}
+
+#pragma mark - Message Collection Delegate
+- (void)messageCollection:(MessageCollection *)messageCollection
+          itemsAreUpdated:(NSArray<SBDBaseMessage *> *)updatedMessages
+                   action:(ChangeLogAction)action
+                    error:(NSError *)error {
+    self.isLoading = NO;
+    if (self.messageCollection != messageCollection) {
+        return;
+    }
+    
+    if (error != nil) {
+        return;
+    }
+    
+    if ([self isFirstLoad]) {
+        NSArray *resendableMessagesKeys = [self.chattingView.resendableMessages allKeys];
+        for (NSString *key in resendableMessagesKeys) {
+            [self.chattingView.messages addObject:self.chattingView.resendableMessages[key]];
+        }
+        
+        NSArray *preSendMessagesKeys = [self.chattingView.preSendMessages allKeys];
+        for (NSString *key in preSendMessagesKeys) {
+            [self.chattingView.messages addObject:self.chattingView.preSendMessages[key]];
+        }
+        
+        [self.channel markAsRead];
+        
+        self.chattingView.initialLoading = YES;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            CGFloat viewHeight;
+            if (self.keyboardShown) {
+                viewHeight = self.chattingView.chattingTableView.frame.size.height - 10;
+            }
+            else {
+                viewHeight = [[UIScreen mainScreen] bounds].size.height - self.navigationBarHeight.constant - self.chattingView.inputContainerViewHeight.constant - 10;
+            }
+            
+            CGSize contentSize = self.chattingView.chattingTableView.contentSize;
+            
+            if (contentSize.height > viewHeight) {
+                CGPoint newContentOffset = CGPointMake(0, contentSize.height - viewHeight);
+                [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
+            }
+        });
+        
+        self.chattingView.initialLoading = NO;
+        self.firstLoad = NO;
+    }
+    
+    if (updatedMessages == nil || updatedMessages.count == 0) {
+        return;
+    }
+    
+    if (action == ChangeLogActionCleared) {
+        [self.chattingView.messages removeAllObjects];
+        [self.chattingView.chattingTableView reloadData];
+        return;
+    }
+    
+    NSLog(@"[TEST] in view, messages: %@", self.chattingView.messages);
+    NSArray <ChangeLog <SBDBaseMessage *> *> *changeLogs = [Util changeLogsBetweenOldMessages:self.chattingView.messages andUpdatedMessages:updatedMessages action:action messageCollection:messageCollection];
+    
+    // update ui view
+    switch (action) {
+        case ChangeLogActionNew:
+            [self insertChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionChanged:
+            [self changeChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionDeleted:
+            [self deleteChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionMoved:
+            [self moveChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionCleared:
+        case ChangeLogActionNone:
+            break;
+    }
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            CGSize contentSizeBefore = self.chattingView.chattingTableView.contentSize;
+//
+//            [self.chattingView.chattingTableView reloadData];
+//            [self.chattingView.chattingTableView layoutIfNeeded];
+//
+//            CGSize contentSizeAfter = self.chattingView.chattingTableView.contentSize;
+//
+//            CGPoint newContentOffset = CGPointMake(0, contentSizeAfter.height - contentSizeBefore.height);
+//            [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
+//        });
+}
+
+- (void)insertChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        [self.chattingView.messages insertObject:changeLog.item atIndex:index];
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.chattingView.chattingTableView insertRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)deleteChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        [self.chattingView.messages removeObjectAtIndex:index];
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.chattingView.chattingTableView deleteRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)changeChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        [self.chattingView.messages replaceObjectAtIndex:index withObject:changeLog.item];
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.chattingView.chattingTableView reloadRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)moveChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger atIndex = changeLog.atIndex;
+        NSUInteger toIndex = changeLog.toIndex;
+        [self.chattingView.messages removeObjectAtIndex:atIndex];
+        [self.chattingView.messages insertObject:changeLog.item atIndex:toIndex];
+        [self.chattingView.chattingTableView moveRowAtIndexPath:[NSIndexPath indexPathForRow:atIndex inSection:0]
+                                                    toIndexPath:[NSIndexPath indexPathForRow:toIndex inSection:0]];
+    }
+}
+
+#pragma mark - SendBird SDK
 - (void)sendMessageWithReplacement:(OutgoingGeneralUrlPreviewTempModel * _Nonnull)replacement {
     SBDUserMessage *preSendMessage = [self.channel sendUserMessage:replacement.message data:@"" customType:@"" targetLanguages:@[@"ar", @"de", @"fr", @"nl", @"ja", @"ko", @"pt", @"es", @"zh-CHS"] completionHandler:^(SBDUserMessage * _Nullable userMessage, SBDError * _Nullable error) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(150 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
@@ -723,71 +704,8 @@
     }
 }
 
-#pragma mark - Message Manager Delegate
-- (void)itemsAreLoaded:(NSArray<SBDBaseMessage *> *)messages {
-    self.messages = [messages mutableCopy];
-    
-    self.chattingView.messages = [messages mutableCopy];
-    
-    if ([self isFirstLoad]) {
-        NSArray *resendableMessagesKeys = [self.chattingView.resendableMessages allKeys];
-        for (NSString *key in resendableMessagesKeys) {
-            [self.chattingView.messages addObject:self.chattingView.resendableMessages[key]];
-        }
-        
-        NSArray *preSendMessagesKeys = [self.chattingView.preSendMessages allKeys];
-        for (NSString *key in preSendMessagesKeys) {
-            [self.chattingView.messages addObject:self.chattingView.preSendMessages[key]];
-        }
-        
-        [self.channel markAsRead];
-        
-        self.chattingView.initialLoading = YES;
-        
-        if (messages.count > 0) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.chattingView.chattingTableView reloadData];
-                [self.chattingView.chattingTableView layoutIfNeeded];
-                
-                CGFloat viewHeight;
-                if (self.keyboardShown) {
-                    viewHeight = self.chattingView.chattingTableView.frame.size.height - 10;
-                }
-                else {
-                    viewHeight = [[UIScreen mainScreen] bounds].size.height - self.navigationBarHeight.constant - self.chattingView.inputContainerViewHeight.constant - 10;
-                }
-                
-                CGSize contentSize = self.chattingView.chattingTableView.contentSize;
-                
-                if (contentSize.height > viewHeight) {
-                    CGPoint newContentOffset = CGPointMake(0, contentSize.height - viewHeight);
-                    [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
-                }
-            });
-        }
-        
-        self.chattingView.initialLoading = NO;
-        self.firstLoad = NO;
-    }
-    else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            CGSize contentSizeBefore = self.chattingView.chattingTableView.contentSize;
-            
-            [self.chattingView.chattingTableView reloadData];
-            [self.chattingView.chattingTableView layoutIfNeeded];
-            
-            CGSize contentSizeAfter = self.chattingView.chattingTableView.contentSize;
-            
-            CGPoint newContentOffset = CGPointMake(0, contentSizeAfter.height - contentSizeBefore.height);
-            [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
-        });
-    }
-}
-
 #pragma mark - Connection Manager Delegate
 - (void)didConnect:(BOOL)isReconnection {
-    [self loadPreviousMessage:YES];
-    
     [self.channel refreshWithCompletionHandler:^(SBDError * _Nullable error) {
         if (error == nil) {
             if (self.navItem.titleView != nil && [self.navItem.titleView isKindOfClass:[UILabel class]]) {
@@ -827,25 +745,8 @@
 }
 
 #pragma mark - SBDChannelDelegate
-
-//- (void)channel:(SBDBaseChannel * _Nonnull)sender didReceiveMessage:(SBDBaseMessage * _Nonnull)message {
-//    if (sender == self.channel) {
-//        [self.channel markAsRead];
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [UIView setAnimationsEnabled:NO];
-//            [self.chattingView.messages addObject:message];
-//            [self.chattingView.chattingTableView reloadData];
-//            [UIView setAnimationsEnabled:YES];
-//
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.chattingView scrollToBottomWithForce:NO];
-//            });
-//        });
-//    }
-//}
-
 - (void)channelDidUpdateReadReceipt:(SBDGroupChannel * _Nonnull)sender {
+    // TODO: move to cell
     if (sender == self.channel) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.chattingView.chattingTableView reloadData];
@@ -885,38 +786,6 @@
     }
 }
 
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userDidEnter:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userDidExit:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasMuted:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasUnmuted:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasBanned:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasUnbanned:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channelWasFrozen:(SBDOpenChannel * _Nonnull)sender {
-//
-//}
-//
-//- (void)channelWasUnfrozen:(SBDOpenChannel * _Nonnull)sender {
-//
-//}
-
 - (void)channelWasChanged:(SBDBaseChannel * _Nonnull)sender {
     if (sender == self.channel) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -925,38 +794,21 @@
     }
 }
 
-//- (void)channelWasDeleted:(NSString * _Nonnull)channelUrl channelType:(SBDChannelType)channelType {
-//    UIAlertController *vc = [UIAlertController alertControllerWithTitle:[NSBundle sbLocalizedStringForKey:@"ChannelDeletedTitle"] message:[NSBundle sbLocalizedStringForKey:@"ChannelDeletedMessage"] preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *closeAction = [UIAlertAction actionWithTitle:[NSBundle sbLocalizedStringForKey:@"CloseButton"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//        [self close];
-//    }];
-//    [vc addAction:closeAction];
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self presentViewController:vc animated:YES completion:nil];
-//    });
-//}
-
-//- (void)channel:(SBDBaseChannel * _Nonnull)sender messageWasDeleted:(long long)messageId {
-//    if (sender == self.channel) {
-//        for (SBDBaseMessage *message in self.chattingView.messages) {
-//            if (message.messageId == messageId) {
-//                [self.chattingView.messages removeObject:message];
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self.chattingView.chattingTableView reloadData];
-//                });
-//                break;
-//            }
-//        }
-//    }
-//}
+- (void)channelWasDeleted:(NSString * _Nonnull)channelUrl channelType:(SBDChannelType)channelType {
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:[NSBundle sbLocalizedStringForKey:@"ChannelDeletedTitle"] message:[NSBundle sbLocalizedStringForKey:@"ChannelDeletedMessage"] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *closeAction = [UIAlertAction actionWithTitle:[NSBundle sbLocalizedStringForKey:@"CloseButton"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self close];
+    }];
+    [vc addAction:closeAction];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:vc animated:YES completion:nil];
+    });
+}
 
 #pragma mark - ChattingViewDelegate
 - (void)loadMoreMessage:(UIView *)view {
-//    if (self.cachedMessage) {
-//        return;
-//    }
-//
-    [self loadPreviousMessage:NO];
+    self.isLoading = YES;
+    [self.messageCollection loadPreviousMessagesFromReferenceMessageId:self.chattingView.messages.firstObject.messageId];
 }
 
 - (void)startTyping:(UIView *)view {

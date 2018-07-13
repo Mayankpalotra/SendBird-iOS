@@ -23,9 +23,6 @@
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
-//@property (strong, nonatomic) NSMutableArray<SBDOpenChannel *> *channels;
-//@property (strong, nonatomic) SBDOpenChannelListQuery *openChannelListQuery;
-
 /**
  *  new properties with channel manager
  */
@@ -58,7 +55,6 @@
         }];
     }
     else {
-        self.queryCollection = [self createQueryCollection];
         self.queryCollection.delegate = self;
         [self.queryCollection load];
     }
@@ -105,79 +101,13 @@
 }
 
 - (void)refreshChannel {
+    [self.channels removeAllObjects];
+    [self.tableView reloadData];
+    [ChannelManager removeQueryCollection:self.queryCollection];
     self.queryCollection = [self createQueryCollection];
     self.queryCollection.delegate = self;
     [self.queryCollection load];
 }
-
-//- (void)refreshChannelList {
-//    if (self.channels != nil) {
-//        [self.channels removeAllObjects];
-//    }
-//    else {
-//        self.channels = [[NSMutableArray alloc] init];
-//    }
-//
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self.tableView reloadData];
-//    });
-//
-//    self.openChannelListQuery = [SBDOpenChannel createOpenChannelListQuery];
-//    self.openChannelListQuery.limit = 20;
-//
-//    [self.openChannelListQuery loadNextPageWithCompletionHandler:^(NSArray<SBDOpenChannel *> * _Nullable channels, SBDError * _Nullable error) {
-//        if (error != nil) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.refreshControl endRefreshing];
-//            });
-//
-//            UIAlertController *vc = [UIAlertController alertControllerWithTitle:[NSBundle sbLocalizedStringForKey:@"ErrorTitle"] message:error.domain preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *closeAction = [UIAlertAction actionWithTitle:[NSBundle sbLocalizedStringForKey:@"CloseButton"] style:UIAlertActionStyleCancel handler:nil];
-//            [vc addAction:closeAction];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self presentViewController:vc animated:YES completion:nil];
-//            });
-//
-//            return;
-//        }
-//
-//        for (SBDOpenChannel *channel in channels) {
-//            [self.channels addObject:channel];
-//        }
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.refreshControl endRefreshing];
-//            [self.tableView reloadData];
-//        });
-//    }];
-//}
-//
-//- (void)loadChannels {
-//    if (self.openChannelListQuery.hasNext == NO) {
-//        return;
-//    }
-//
-//    [self.openChannelListQuery loadNextPageWithCompletionHandler:^(NSArray<SBDOpenChannel *> * _Nullable channels, SBDError * _Nullable error) {
-//        if (error != nil) {
-//            UIAlertController *vc = [UIAlertController alertControllerWithTitle:[NSBundle sbLocalizedStringForKey:@"ErrorTitle"] message:error.domain preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *closeAction = [UIAlertAction actionWithTitle:[NSBundle sbLocalizedStringForKey:@"CloseButton"] style:UIAlertActionStyleCancel handler:nil];
-//            [vc addAction:closeAction];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self presentViewController:vc animated:YES completion:nil];
-//            });
-//
-//            return;
-//        }
-//
-//        for (SBDOpenChannel *channel in channels) {
-//            [self.channels addObject:channel];
-//        }
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.tableView reloadData];
-//        });
-//    }];
-//}
 
 - (void)back {
     [self dismissViewControllerAnimated:NO completion:nil];
@@ -266,16 +196,93 @@
 }
 
 #pragma mark - Channel Query Collection Delegate
-- (void)itemsAreLoaded:(NSArray<SBDBaseChannel *> *)channels {
-    // TODO: update view
-    for (SBDOpenChannel *channel in channels) {
-        [self.channels addObject:channel];
+- (void)queryCollection:(QueryCollection *)queryCollection
+        itemsAreUpdated:(NSArray<SBDBaseChannel *> *)updatedChannels
+                 action:(ChangeLogAction)action
+                  error:(NSError *)error {
+    if (self.queryCollection != queryCollection) {
+        return;
     }
+    
+    if (error != nil) {
+        return;
+    }
+    
+    if (updatedChannels == nil || updatedChannels.count == 0) {
+        return;
+    }
+    
+    // get change logs between olds and updateds
+    NSArray <ChangeLog *> *changeLogs = [Util changeLogsBetweenOldChannels:self.channels
+                                                        andUpdatedChannels:updatedChannels
+                                                                    action:action
+                                                           queryCollection:queryCollection];
+    
+    // update ui view
+    switch (action) {
+        case ChangeLogActionNew:
+            [self insertChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionChanged:
+            [self changeChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionDeleted:
+            [self deleteChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionMoved:
+            [self moveChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionNone:
+            break;
+    }
+    
+    [self.refreshControl endRefreshing];
+}
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.refreshControl endRefreshing];
-        [self.tableView reloadData];
-    });
+- (void)insertChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        SBDOpenChannel *channel = (SBDOpenChannel *)(changeLog.item);
+        [self.channels insertObject:channel atIndex:index];
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.tableView insertRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)deleteChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        [self.channels removeObjectAtIndex:index];
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.tableView deleteRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)changeChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.tableView reloadRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)moveChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger atIndex = changeLog.atIndex;
+        NSUInteger toIndex = changeLog.toIndex;
+        SBDOpenChannel *channel = self.channels[atIndex];
+        [self.channels removeObjectAtIndex:atIndex];
+        [self.channels insertObject:channel atIndex:toIndex];
+        [self.tableView moveRowAtIndexPath:[NSIndexPath indexPathForRow:atIndex inSection:0]
+                               toIndexPath:[NSIndexPath indexPathForRow:toIndex inSection:0]];
+    }
 }
 
 @end

@@ -29,13 +29,7 @@
 @property (strong, atomic, nonnull) NSMutableArray<SBDGroupChannel *> *channels;
 
 @property (atomic) BOOL editableChannel;
-//@property (strong, nonatomic) SBDGroupChannelListQuery *groupChannelListQuery;
 @property (strong, nonatomic) NSMutableArray<NSString *> *typingAnimationChannelList;
-
-//@property (atomic) BOOL cachedChannels;
-
-//@property (atomic) BOOL firstLoading;
-
 
 /**
  *  new properties with channel manager
@@ -97,37 +91,6 @@
     self.queryCollection.delegate = nil;
 }
 
-//- (void)showList {
-//    dispatch_queue_t dumpLoadQueue = dispatch_queue_create("com.sendbird.dumploadqueue", DISPATCH_QUEUE_CONCURRENT);
-//    dispatch_async(dumpLoadQueue, ^{
-//        self.channels = [[NSMutableArray alloc] initWithArray:[Utils loadGroupChannels]];
-//        if (self.channels.count > 0) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.tableView reloadData];
-//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(150 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-//                    [self refreshChannelList];
-//                });
-//
-//            });
-//        }
-//        else {
-//            self.cachedChannels = NO;
-//            [self refreshChannelList];
-//        }
-//        self.firstLoading = YES;
-//    });
-//
-//}
-
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    [Utils dumpChannels:self.channels];
-//}
-
-//- (void)addDelegates {
-//    [SBDMain addChannelDelegate:self identifier:self.description];
-//}
-
 - (void)setDefaultNavigationItems {
     UIBarButtonItem *negativeLeftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     negativeLeftSpacer.width = -2;
@@ -151,100 +114,24 @@
 }
 
 - (QueryCollection *)createQueryCollection {
-    SBDGroupChannelListQuery *query = [SBDGroupChannel createMyGroupChannelListQuery];
-    query.limit = 20;
-    query.order = SBDGroupChannelListOrderLatestLastMessage;
-    QueryCollection *queryCollection = [ChannelManager createQueryCollectionWithQuery:query];
+    QueryCollection *queryCollection = [ChannelManager createQueryCollectionWithQuery:[self query]];
     return queryCollection;
 }
 
+- (id<SBDChannelQuery>)query {
+    SBDGroupChannelListQuery *query = [SBDGroupChannel createMyGroupChannelListQuery];
+    query.limit = 10;
+    query.order = SBDGroupChannelListOrderLatestLastMessage;
+    return query;
+}
+
 - (void)refreshChannel {
-    self.queryCollection = [self createQueryCollection];
-    self.queryCollection.delegate = self;
+    [self.queryCollection resetWithQuery:[self query]];
     [self.queryCollection load];
 }
 
-//- (void)refreshChannelList {
-//
-//    [self.groupChannelListQuery loadNextPageWithCompletionHandler:^(NSArray<SBDGroupChannel *> * _Nullable channels, SBDError * _Nullable error) {
-//        if (error != nil) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.refreshControl endRefreshing];
-//            });
-//
-//            return;
-//        }
-//
-//        if (self.channels != nil) {
-//            [self.channels removeAllObjects];
-//        }
-//        else {
-//            self.channels = [[NSMutableArray alloc] init];
-//        }
-//
-//        self.cachedChannels = NO;
-//
-//        for (SBDGroupChannel *channel in channels) {
-//            [self.channels addObject:channel];
-//        }
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            if (self.channels.count == 0) {
-//                self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//                self.noChannelLabel.hidden = NO;
-//            }
-//            else {
-//                self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-//                self.noChannelLabel.hidden = YES;
-//            }
-//
-//            [self.refreshControl endRefreshing];
-//            [self.tableView reloadData];
-//        });
-//    }];
-//}
-
 - (void)loadChannels {
     [self.queryCollection load];
-//    if (self.cachedChannels == YES) {
-//        return;
-//    }
-//
-//    if (self.groupChannelListQuery != nil) {
-//        if ([self.groupChannelListQuery hasNext] == NO) {
-//            return;
-//        }
-//
-//        [self.groupChannelListQuery loadNextPageWithCompletionHandler:^(NSArray<SBDGroupChannel *> * _Nullable channels, SBDError * _Nullable error) {
-//            if (error != nil) {
-//                if (error.code != SBDErrorQueryInProgress) {
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        [self.refreshControl endRefreshing];
-//                    });
-//
-//                    UIAlertController *vc = [UIAlertController alertControllerWithTitle:[NSBundle sbLocalizedStringForKey:@"ErrorTitle"] message:error.domain preferredStyle:UIAlertControllerStyleAlert];
-//                    UIAlertAction *closeAction = [UIAlertAction actionWithTitle:[NSBundle sbLocalizedStringForKey:@"CloseButton"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//
-//                    }];
-//                    [vc addAction:closeAction];
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        [self presentViewController:vc animated:YES completion:nil];
-//                    });
-//                }
-//
-//                return;
-//            }
-//
-//            for (SBDGroupChannel *channel in channels) {
-//                [self.channels addObject:channel];
-//            }
-//
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.refreshControl endRefreshing];
-//                [self.tableView reloadData];
-//            });
-//        }];
-//    }
 }
 
 - (void)back {
@@ -279,6 +166,20 @@
     self.editableChannel = NO;
     [self setDefaultNavigationItems];
     [self.tableView reloadData];
+}
+
+- (void)hideEmptyTableStyle {
+    if (self.channels.count > 0 && self.noChannelLabel.hidden) {
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        self.noChannelLabel.hidden = YES;
+    }
+}
+
+- (void)showEmptyTableStyle {
+    if (self.channels.count == 0 && !self.noChannelLabel.hidden) {
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.noChannelLabel.hidden = NO;
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -349,6 +250,8 @@
             [self.typingAnimationChannelList removeObject:self.channels[indexPath.row].channelUrl];
         }
 
+        SBDGroupChannel *channel = self.channels[indexPath.row];
+        NSLog(@"[TableView] cell url: %@, name: %@, created at: %ld, index: %ld", channel.channelUrl, channel.name, channel.createdAt, indexPath.row);
         [(GroupChannelListTableViewCell *)cell setModel:self.channels[indexPath.row]];
     }
     
@@ -420,53 +323,111 @@
 #pragma mark - Connection Manager Delegate
 - (void)didConnect:(BOOL)isReconnection {
     [self.queryCollection load];
-//    UIViewController *vc = [UIApplication sharedApplication].keyWindow.rootViewController;
-//    UIViewController *bestVC = [Utils findBestViewController:vc];
-//
-//    if (bestVC == self) {
-//        [self refreshChannelList];
-//    }
 }
 
 #pragma mark - Channel Query Collection Delegate
-- (void)itemsAreLoaded:(NSArray<SBDBaseChannel *> *)channels {
-    // TODO: update view
-    self.channels = [channels mutableCopy];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.channels.count == 0) {
-            self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-            self.noChannelLabel.hidden = NO;
-        }
-        else {
-            self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-            self.noChannelLabel.hidden = YES;
-        }
-
-        [self.refreshControl endRefreshing];
+- (void)queryCollection:(QueryCollection *)queryCollection
+        itemsAreUpdated:(NSArray <SBDBaseChannel *> *)updatedChannels // inserted, deleted, changed, moved channel
+                 action:(ChangeLogAction)action
+                  error:(NSError *)error {
+    if (self.queryCollection != queryCollection) {
+        return;
+    }
+    
+    if (error != nil) {
+        return;
+    }
+    
+    if (updatedChannels == nil || updatedChannels.count == 0) {
+        return;
+    }
+    
+    if (action == ChangeLogActionCleared) {
+        [self.channels removeAllObjects];
         [self.tableView reloadData];
-    });
+        return;
+    }
+    // get old channels data source
+    
+    // make updated channels data source
+    
+    // get change logs between olds and updateds
+    NSArray <ChangeLog *> *changeLogs = [Util changeLogsBetweenOldChannels:self.channels
+                                                        andUpdatedChannels:updatedChannels
+                                                                    action:action
+                                                           queryCollection:queryCollection];
+    
+    // update ui view
+    switch (action) {
+        case ChangeLogActionNew:
+            [self insertChangeLogs:changeLogs];
+            [self hideEmptyTableStyle];
+            break;
+            
+        case ChangeLogActionChanged:
+            [self changeChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionDeleted:
+            [self deleteChangeLogs:changeLogs];
+            [self showEmptyTableStyle];
+            break;
+            
+        case ChangeLogActionMoved:
+            [self moveChangeLogs:changeLogs];
+            break;
+            
+        case ChangeLogActionCleared:
+        case ChangeLogActionNone:
+            break;
+    }
+    
+    [self.refreshControl endRefreshing];
+}
+
+- (void)insertChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        SBDGroupChannel *channel = (SBDGroupChannel *)(changeLog.item);
+        [self.channels insertObject:channel atIndex:index];
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.tableView insertRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)deleteChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        [self.channels removeObjectAtIndex:index];
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.tableView deleteRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)changeChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger index = changeLog.index;
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
+    [self.tableView reloadRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)moveChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
+    for (ChangeLog *changeLog in changeLogs) {
+        NSUInteger atIndex = changeLog.atIndex;
+        NSUInteger toIndex = changeLog.toIndex;
+        SBDGroupChannel *channel = self.channels[atIndex];
+        [self.channels removeObjectAtIndex:atIndex];
+        [self.channels insertObject:channel atIndex:toIndex];
+        [self.tableView moveRowAtIndexPath:[NSIndexPath indexPathForRow:atIndex inSection:0]
+                               toIndexPath:[NSIndexPath indexPathForRow:toIndex inSection:0]];
+    }
 }
 
 #pragma mark - SBDChannelDelegate
-//- (void)channel:(SBDBaseChannel * _Nonnull)sender didReceiveMessage:(SBDBaseMessage * _Nonnull)message {
-//    if ([sender isKindOfClass:[SBDGroupChannel class]]) {
-//        SBDGroupChannel *messageReceivedChannel = (SBDGroupChannel *)sender;
-//        if ([self.channels indexOfObject:messageReceivedChannel] != NSNotFound) {
-//            [self.channels removeObject:messageReceivedChannel];
-//        }
-//        [self.channels insertObject:messageReceivedChannel atIndex:0];
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.tableView reloadData];
-//        });
-//    }
-//}
-//
-//- (void)channelDidUpdateReadReceipt:(SBDGroupChannel * _Nonnull)sender {
-//
-//}
-//
 - (void)channelDidUpdateTypingStatus:(SBDGroupChannel * _Nonnull)sender {
     if (self.editableChannel == YES) {
         return;
@@ -480,15 +441,6 @@
     }
 }
 
-//- (void)channel:(SBDGroupChannel * _Nonnull)sender userDidJoin:(SBDUser * _Nonnull)user {
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if ([self.channels indexOfObject:sender] == NSNotFound) {
-//            [self.channels addObject:sender];
-//        }
-//        [self.tableView reloadData];
-//    });
-//}
-//
 - (void)channel:(SBDGroupChannel * _Nonnull)sender userDidLeave:(SBDUser * _Nonnull)user {
     if ([user.userId isEqualToString:[SBDMain getCurrentUser].userId]) {
         [self.channels removeObject:sender];
@@ -498,59 +450,17 @@
     }
 }
 
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userDidEnter:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userDidExit:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasMuted:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasUnmuted:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasBanned:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasUnbanned:(SBDUser * _Nonnull)user {
-//
-//}
-//
-//- (void)channelWasFrozen:(SBDOpenChannel * _Nonnull)sender {
-//
-//}
-//
-//- (void)channelWasUnfrozen:(SBDOpenChannel * _Nonnull)sender {
-//
-//}
-//
 - (void)channelWasChanged:(SBDBaseChannel * _Nonnull)sender {
     if ([sender isKindOfClass:[SBDGroupChannel class]]) {
-//        SBDGroupChannel *messageReceivedChannel = (SBDGroupChannel *)sender;
-//        if ([self.channels indexOfObject:messageReceivedChannel] != NSNotFound) {
-//            [self.channels removeObject:messageReceivedChannel];
-//        }
-//        [self.channels insertObject:messageReceivedChannel atIndex:0];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
+        NSUInteger index = [self.channels indexOfObject:(SBDGroupChannel *)sender];
+        if (index != NSNotFound) {
+            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:index];
+            [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        else {
+            
+        }
     }
 }
-
-//- (void)channelWasDeleted:(NSString * _Nonnull)channelUrl channelType:(SBDChannelType)channelType {
-//
-//}
-//
-//- (void)channel:(SBDBaseChannel * _Nonnull)sender messageWasDeleted:(long long)messageId {
-//
-//}
-
 
 @end
