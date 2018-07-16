@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <SendBirdSDK/SendBirdSDK.h>
+#import <SyncManager/SyncManager.h>
 
 #import "ReusableViewFromXib.h"
 #import "ViewCell/MessageDelegate.h"
 #import "OutgoingGeneralUrlPreviewTempModel.h"
+
+typedef void(^ChattingViewCompletionHandler)(void);
+
+@class MessageCollection;
 
 @protocol ChattingViewDelegate <NSObject>
 
@@ -49,5 +54,13 @@
 - (void)scrollToPosition:(NSInteger)position;
 - (void)startTypingIndicator:(NSString *)text;
 - (void)endTypingIndicator;
+
+- (void)updateMessages:(NSArray <SBDBaseMessage *> *)messages
+     messageCollection:(MessageCollection *)messageCollection
+          changeAction:(ChangeLogAction)action
+     completionHandler:(ChattingViewCompletionHandler)completionHandler;
+- (void)replaceMessageFrom:(SBDBaseMessage *)fromMessage
+                        to:(SBDBaseMessage *)toMessage
+         completionHandler:(ChattingViewCompletionHandler)completionHandler;
 
 @end

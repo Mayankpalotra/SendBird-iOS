@@ -239,6 +239,176 @@
     [self.typingIndicatorContainerView layoutIfNeeded];
 }
 
+- (void)updateMessages:(NSArray<SBDBaseMessage *> *)messages
+          messageCollection:(MessageCollection *)messageCollection
+          changeAction:(ChangeLogAction)action
+     completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    NSArray <ChangeLog <SBDBaseMessage *> *> *changeLogs = [Util changeLogsBetweenOldMessages:self.messages
+                                                                           andUpdatedMessages:messages
+                                                                                       action:action
+                                                                            messageCollection:messageCollection];
+    ChattingViewCompletionHandler handler = ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self scrollToBottomWithForce:YES];
+            if (completionHandler != nil) {
+                completionHandler ();
+            }
+        });
+    };
+    
+    // update ui view
+    switch (action) {
+        case ChangeLogActionNew:
+            [self insertChangeLogs:changeLogs completionHandler:handler];
+            break;
+            
+        case ChangeLogActionChanged:
+            [self changeChangeLogs:changeLogs completionHandler:handler];
+            break;
+            
+        case ChangeLogActionDeleted:
+            [self deleteChangeLogs:changeLogs completionHandler:handler];
+            break;
+            
+        case ChangeLogActionMoved:
+            [self moveChangeLogs:changeLogs completionHandler:handler];
+            break;
+            
+        case ChangeLogActionCleared:
+            [self clearMessagesWithCompletionHandler:handler];
+            break;
+            
+        case ChangeLogActionNone:
+            break;
+    }
+
+}
+
+- (void)replaceMessageFrom:(SBDBaseMessage *)fromMessage
+                        to:(SBDBaseMessage *)toMessage
+         completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    NSUInteger index = [self.messages indexOfObject:fromMessage];
+    ChangeLog <SBDBaseMessage *> *changeLog = [[ChangeLog alloc] initWithItem:toMessage action:ChangeLogActionChanged index:index];
+    [self changeChangeLogs:@[changeLog] completionHandler:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self scrollToBottomWithForce:YES];
+            if (completionHandler != nil) {
+                completionHandler ();
+            }
+        });
+    }];
+}
+
+#pragma mark - UI Update with Change Log
+- (void)performBatchUpdates:(nonnull void (^)(UITableView * _Nonnull tableView))updateProcess
+                 completion:(nullable void(^)(BOOL finished))completionHandler {
+    if (@available(iOS 11.0, *)) {
+        [self.chattingTableView performBatchUpdates:^{
+            updateProcess(self.chattingTableView);
+        } completion:completionHandler];
+    } else {
+        // Fallback on earlier versions
+        [self.chattingTableView beginUpdates];
+        updateProcess(self.chattingTableView);
+        [self.chattingTableView endUpdates];
+    }
+}
+
+- (void)insertChangeLogs:(NSArray <ChangeLog *> *)changeLogs
+       completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.messages) {
+        NSMutableArray *indexPaths = [NSMutableArray array];
+        for (ChangeLog *changeLog in changeLogs) {
+            NSUInteger index = changeLog.index;
+            [self.messages insertObject:changeLog.item atIndex:index];
+            [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+        
+        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+            [tableView insertRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationNone];
+        } completion:^(BOOL finished) {
+            if (finished && completionHandler != nil) {
+                completionHandler();
+            }
+        }];
+    }
+}
+
+- (void)deleteChangeLogs:(NSArray <ChangeLog *> *)changeLogs
+       completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.messages) {
+        NSMutableArray *indexPaths = [NSMutableArray array];
+        for (ChangeLog *changeLog in changeLogs) {
+            NSUInteger index = changeLog.index;
+            [self.messages removeObjectAtIndex:index];
+            [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+        
+        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+            [tableView deleteRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+        } completion:^(BOOL finished) {
+            if (finished && completionHandler != nil) {
+                completionHandler();
+            }
+        }];
+    }
+}
+
+- (void)changeChangeLogs:(NSArray <ChangeLog *> *)changeLogs
+       completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.messages) {
+        NSMutableArray *indexPaths = [NSMutableArray array];
+        for (ChangeLog *changeLog in changeLogs) {
+            NSUInteger index = changeLog.index;
+            [self.messages replaceObjectAtIndex:index withObject:changeLog.item];
+            [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+        
+        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+            [tableView reloadRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationNone];
+        } completion:^(BOOL finished) {
+            if (finished && completionHandler != nil) {
+                completionHandler();
+            }
+        }];
+    }
+}
+
+- (void)moveChangeLogs:(NSArray <ChangeLog *> *)changeLogs
+     completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.messages) {
+        for (ChangeLog *changeLog in changeLogs) {
+            NSUInteger atIndex = changeLog.atIndex;
+            NSUInteger toIndex = changeLog.toIndex;
+            NSIndexPath *atIndexPath = [NSIndexPath indexPathForRow:atIndex inSection:0];
+            NSIndexPath *toIndexPath = [NSIndexPath indexPathForRow:toIndex inSection:0];
+            [self.messages removeObjectAtIndex:atIndex];
+            [self.messages insertObject:changeLog.item atIndex:toIndex];
+            
+            [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+                [tableView moveRowAtIndexPath:atIndexPath toIndexPath:toIndexPath];
+            } completion:^(BOOL finished) {
+                if (finished && completionHandler != nil) {
+                    completionHandler();
+                }
+            }];
+        }
+    }
+}
+
+- (void)clearMessagesWithCompletionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.messages) {
+        [self.messages removeAllObjects];
+        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+            [tableView reloadData];
+        } completion:^(BOOL finished) {
+            if (finished && completionHandler != nil) {
+                completionHandler();
+            }
+        }];
+    }
+}
+
 #pragma mark - UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView {
     if (textView == self.messageTextView) {
@@ -304,7 +474,7 @@
         }
         
         if (scrollView.contentOffset.y == 0) {
-            if (self.messages.count > 0 && self.initialLoading == NO) {
+            if (self.messages.count > 0 && !self.initialLoading) {
                 if (self.delegate) {
                     [self.delegate loadMoreMessage:self];
                 }
@@ -491,142 +661,6 @@
     
     return height;
 }
-
-/*
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CGFloat height = 0;
-    
-    SBDBaseMessage *msg = self.messages[indexPath.row];
-    
-    if ([msg isKindOfClass:[SBDUserMessage class]]) {
-        SBDUserMessage *userMessage = (SBDUserMessage *)msg;
-        SBDUser *sender = userMessage.sender;
-        
-        if ([sender.userId isEqualToString:[SBDMain getCurrentUser].userId]) {
-            // Outgoing
-            if (indexPath.row > 0) {
-                [self.outgoingUserMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-            }
-            else {
-                [self.outgoingUserMessageSizingTableViewCell setPreviousMessage:nil];
-            }
-            [self.outgoingUserMessageSizingTableViewCell setModel:userMessage];
-            height = [self.outgoingUserMessageSizingTableViewCell getHeightOfViewCell];
-        }
-        else {
-            // Incoming
-            if (indexPath.row > 0) {
-                [self.incomingUserMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-            }
-            else {
-                [self.incomingUserMessageSizingTableViewCell setPreviousMessage:nil];
-            }
-            [self.incomingUserMessageSizingTableViewCell setModel:userMessage];
-            height = [self.incomingUserMessageSizingTableViewCell getHeightOfViewCell];
-        }
-    }
-    else if ([msg isKindOfClass:[SBDFileMessage class]]) {
-        SBDFileMessage *fileMessage = (SBDFileMessage *)msg;
-        SBDUser *sender = fileMessage.sender;
-        
-        if ([sender.userId isEqualToString:[SBDMain getCurrentUser].userId]) {
-            // Outgoing
-            if ([fileMessage.type hasPrefix:@"video"]) {
-                if (indexPath.row > 0) {
-                    [self.outgoingFileMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-                }
-                else {
-                    [self.outgoingFileMessageSizingTableViewCell setPreviousMessage:nil];
-                }
-                [self.outgoingFileMessageSizingTableViewCell setModel:fileMessage];
-                height = [self.outgoingFileMessageSizingTableViewCell getHeightOfViewCell];
-            }
-            else if ([fileMessage.type hasPrefix:@"audio"]) {
-                if (indexPath.row > 0) {
-                    [self.outgoingFileMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-                }
-                else {
-                    [self.outgoingFileMessageSizingTableViewCell setPreviousMessage:nil];
-                }
-                [self.outgoingFileMessageSizingTableViewCell setModel:fileMessage];
-                height = [self.outgoingFileMessageSizingTableViewCell getHeightOfViewCell];
-            }
-            else if ([fileMessage.type hasPrefix:@"image"]) {
-                if (indexPath.row > 0) {
-                    [self.outgoingImageFileMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-                }
-                else {
-                    [self.outgoingImageFileMessageSizingTableViewCell setPreviousMessage:nil];
-                }
-                [self.outgoingImageFileMessageSizingTableViewCell setModel:fileMessage];
-                height = [self.outgoingImageFileMessageSizingTableViewCell getHeightOfViewCell];
-            }
-            else {
-                if (indexPath.row > 0) {
-                    [self.outgoingFileMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-                }
-                else {
-                    [self.outgoingFileMessageSizingTableViewCell setPreviousMessage:nil];
-                }
-                [self.outgoingFileMessageSizingTableViewCell setModel:fileMessage];
-                height = [self.outgoingFileMessageSizingTableViewCell getHeightOfViewCell];
-            }
-        }
-        else {
-            // Incoming
-            if ([fileMessage.type hasPrefix:@"video"]) {
-                if (indexPath.row > 0) {
-                    [self.incomingFileMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-                }
-                else {
-                    [self.incomingFileMessageSizingTableViewCell setPreviousMessage:nil];
-                }
-                [self.incomingFileMessageSizingTableViewCell setModel:fileMessage];
-                height = [self.incomingFileMessageSizingTableViewCell getHeightOfViewCell];
-            }
-            else if ([fileMessage.type hasPrefix:@"audio"]) {
-                if (indexPath.row > 0) {
-                    [self.incomingFileMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-                }
-                else {
-                    [self.incomingFileMessageSizingTableViewCell setPreviousMessage:nil];
-                }
-                [self.incomingFileMessageSizingTableViewCell setModel:fileMessage];
-                height = [self.incomingFileMessageSizingTableViewCell getHeightOfViewCell];
-            }
-            else if ([fileMessage.type hasPrefix:@"image"]) {
-                [self.incomingImageFileMessageSizingTableViewCell setModel:fileMessage];
-                height = [self.incomingImageFileMessageSizingTableViewCell getHeightOfViewCell];
-            }
-            else {
-                if (indexPath.row > 0) {
-                    [self.incomingFileMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-                }
-                else {
-                    [self.incomingFileMessageSizingTableViewCell setPreviousMessage:nil];
-                }
-                [self.incomingFileMessageSizingTableViewCell setModel:fileMessage];
-                height = [self.incomingFileMessageSizingTableViewCell getHeightOfViewCell];
-            }
-        }
-    }
-    else if ([msg isKindOfClass:[SBDAdminMessage class]]) {
-        SBDAdminMessage *adminMessage = (SBDAdminMessage *)msg;
-        if (indexPath.row > 0) {
-            [self.neutralMessageSizingTableViewCell setPreviousMessage:self.messages[indexPath.row - 1]];
-        }
-        else {
-            [self.neutralMessageSizingTableViewCell setPreviousMessage:nil];
-        }
-        
-        [self.neutralMessageSizingTableViewCell setModel:adminMessage];
-        height = [self.neutralMessageSizingTableViewCell getHeightOfViewCell];
-    }
-    
-    return height;
-}
-     */
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section
 {
