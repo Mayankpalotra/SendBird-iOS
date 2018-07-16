@@ -61,6 +61,7 @@ typedef void(^ChattingViewCompletionHandler)(void);
      completionHandler:(ChattingViewCompletionHandler)completionHandler;
 - (void)replaceMessageFrom:(SBDBaseMessage *)fromMessage
                         to:(SBDBaseMessage *)toMessage
+         messageCollection:(MessageCollection *)messageCollection
          completionHandler:(ChattingViewCompletionHandler)completionHandler;
 
 @end

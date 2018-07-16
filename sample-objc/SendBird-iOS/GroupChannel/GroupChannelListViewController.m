@@ -130,10 +130,6 @@
     [self.queryCollection load];
 }
 
-- (void)loadChannels {
-    [self.queryCollection load];
-}
-
 - (void)back {
     [self dismissViewControllerAnimated:NO completion:nil];
 }
@@ -256,7 +252,7 @@
     }
     
     if (self.channels.count > 0 && indexPath.row + 1 == self.channels.count) {
-        [self loadChannels];
+        [self.queryCollection load];
     }
     
     return cell;

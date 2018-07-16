@@ -94,10 +94,14 @@
 }
 
 - (QueryCollection *)createQueryCollection {
+    QueryCollection *queryCollection = [ChannelManager createQueryCollectionWithQuery:[self query]];
+    return queryCollection;
+}
+
+- (id<SBDChannelQuery>)query {
     SBDOpenChannelListQuery *query = [SBDOpenChannel createOpenChannelListQuery];
     query.limit = 20;
-    QueryCollection *queryCollection = [ChannelManager createQueryCollectionWithQuery:query];
-    return queryCollection;
+    return query;
 }
 
 - (void)refreshChannel {
@@ -123,7 +127,8 @@
 
 #pragma mark - CreateOpenChannelViewControllerDelegate
 - (void)refreshView:(UIViewController *)vc {
-//    [self refreshChannelList];
+    [self.queryCollection resetWithQuery:[self query]];
+    [self.queryCollection load];
 }
 
 #pragma mark - UITableViewDelegate
@@ -212,6 +217,14 @@
         return;
     }
     
+    if (action == ChangeLogActionCleared) {
+        [self clearAllChannelsWithCompletionHandler:nil];
+        return;
+    }
+    // get old channels data source
+    
+    // make updated channels data source
+    
     // get change logs between olds and updateds
     NSArray <ChangeLog *> *changeLogs = [Util changeLogsBetweenOldChannels:self.channels
                                                         andUpdatedChannels:updatedChannels
@@ -221,21 +234,22 @@
     // update ui view
     switch (action) {
         case ChangeLogActionNew:
-            [self insertChangeLogs:changeLogs];
+            [self insertChangeLogs:changeLogs completionHandler:nil];
             break;
             
         case ChangeLogActionChanged:
-            [self changeChangeLogs:changeLogs];
+            [self changeChangeLogs:changeLogs completionHandler:nil];
             break;
             
         case ChangeLogActionDeleted:
-            [self deleteChangeLogs:changeLogs];
+            [self deleteChangeLogs:changeLogs completionHandler:nil];
             break;
             
         case ChangeLogActionMoved:
-            [self moveChangeLogs:changeLogs];
+            [self moveChangeLogs:changeLogs completionHandler:nil];
             break;
             
+        case ChangeLogActionCleared:
         case ChangeLogActionNone:
             break;
     }
@@ -243,45 +257,119 @@
     [self.refreshControl endRefreshing];
 }
 
-- (void)insertChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
-    NSMutableArray *indexPaths = [NSMutableArray array];
-    for (ChangeLog *changeLog in changeLogs) {
-        NSUInteger index = changeLog.index;
-        SBDOpenChannel *channel = (SBDOpenChannel *)(changeLog.item);
-        [self.channels insertObject:channel atIndex:index];
-        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+#pragma mark - UI Update with Change Log
+- (void)performBatchUpdates:(nonnull void (^)(UITableView * _Nonnull tableView))updateProcess
+                 completion:(nullable void(^)(BOOL finished))completionHandler {
+    if (@available(iOS 11.0, *)) {
+        [self.tableView performBatchUpdates:^{
+            updateProcess(self.tableView);
+        } completion:completionHandler];
+    } else {
+        // Fallback on earlier versions
+        [self.tableView beginUpdates];
+        updateProcess(self.tableView);
+        [self.tableView endUpdates];
     }
-    [self.tableView insertRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)deleteChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
-    NSMutableArray *indexPaths = [NSMutableArray array];
-    for (ChangeLog *changeLog in changeLogs) {
-        NSUInteger index = changeLog.index;
-        [self.channels removeObjectAtIndex:index];
-        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+- (void)insertChangeLogs:(NSArray <ChangeLog *> *)changeLogs
+       completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.channels) {
+        NSMutableArray *indexPaths = [NSMutableArray array];
+        for (ChangeLog *changeLog in changeLogs) {
+            NSUInteger index = changeLog.index;
+            [self.channels insertObject:changeLog.item atIndex:index];
+            [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+        
+        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+            [tableView insertRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationNone];
+        } completion:^(BOOL finished) {
+            if (finished && completionHandler != nil) {
+                completionHandler();
+            }
+        }];
     }
-    [self.tableView deleteRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)changeChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
-    NSMutableArray *indexPaths = [NSMutableArray array];
-    for (ChangeLog *changeLog in changeLogs) {
-        NSUInteger index = changeLog.index;
-        [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+- (void)deleteChangeLogs:(NSArray <ChangeLog *> *)changeLogs
+       completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.channels) {
+        NSMutableArray *indexPaths = [NSMutableArray array];
+        for (ChangeLog *changeLog in changeLogs) {
+            NSUInteger index = changeLog.index;
+            [self.channels removeObjectAtIndex:index];
+            [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+        
+        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+            [tableView deleteRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+        } completion:^(BOOL finished) {
+            if (finished && completionHandler != nil) {
+                completionHandler();
+            }
+        }];
     }
-    [self.tableView reloadRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)moveChangeLogs:(NSArray <ChangeLog *> *)changeLogs {
-    for (ChangeLog *changeLog in changeLogs) {
-        NSUInteger atIndex = changeLog.atIndex;
-        NSUInteger toIndex = changeLog.toIndex;
-        SBDOpenChannel *channel = self.channels[atIndex];
-        [self.channels removeObjectAtIndex:atIndex];
-        [self.channels insertObject:channel atIndex:toIndex];
-        [self.tableView moveRowAtIndexPath:[NSIndexPath indexPathForRow:atIndex inSection:0]
-                               toIndexPath:[NSIndexPath indexPathForRow:toIndex inSection:0]];
+- (void)changeChangeLogs:(NSArray <ChangeLog *> *)changeLogs
+       completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.channels) {
+        NSMutableArray *indexPaths = [NSMutableArray array];
+        for (ChangeLog *changeLog in changeLogs) {
+            NSUInteger index = changeLog.index;
+            [self.channels replaceObjectAtIndex:index withObject:changeLog.item];
+            [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+        
+        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+            [tableView reloadRowsAtIndexPaths:[indexPaths copy] withRowAnimation:UITableViewRowAnimationNone];
+        } completion:^(BOOL finished) {
+            if (finished && completionHandler != nil) {
+                completionHandler();
+            }
+        }];
+    }
+}
+
+- (void)moveChangeLogs:(NSArray <ChangeLog *> *)changeLogs
+     completionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.channels) {
+        for (ChangeLog *changeLog in changeLogs) {
+            NSUInteger atIndex = changeLog.atIndex;
+            NSUInteger toIndex = changeLog.toIndex;
+            NSIndexPath *atIndexPath = [NSIndexPath indexPathForRow:atIndex inSection:0];
+            NSIndexPath *toIndexPath = [NSIndexPath indexPathForRow:toIndex inSection:0];
+            [self.channels removeObjectAtIndex:atIndex];
+            [self.channels insertObject:changeLog.item atIndex:toIndex];
+            
+            __weak OpenChannelListViewController *weakSelf = self;
+            [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+                [tableView moveRowAtIndexPath:atIndexPath toIndexPath:toIndexPath];
+            } completion:^(BOOL finished) {
+                __strong OpenChannelListViewController *strongSelf = weakSelf;
+                [strongSelf performBatchUpdates:^(UITableView * _Nonnull tableView) {
+                    [tableView reloadRowsAtIndexPaths:@[toIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+                } completion:^(BOOL finished) {
+                    if (finished && completionHandler != nil) {
+                        completionHandler();
+                    }
+                }];
+            }];
+        }
+    }
+}
+
+- (void)clearAllChannelsWithCompletionHandler:(ChattingViewCompletionHandler)completionHandler {
+    @synchronized (self.channels) {
+        [self.channels removeAllObjects];
+        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
+            [tableView reloadData];
+        } completion:^(BOOL finished) {
+            if (finished && completionHandler != nil) {
+                completionHandler();
+            }
+        }];
     }
 }
 

@@ -27,7 +27,9 @@
 #import "ConnectionManager.h"
 #import "Application.h"
 
-@interface OpenChannelChattingViewController () <ConnectionManagerDelegate>
+#import <SyncManager/SyncManager.h>
+
+@interface OpenChannelChattingViewController () <ConnectionManagerDelegate, MessageCollectionDelegate>
 
 @property (weak, nonatomic) IBOutlet ChattingView *chattingView;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
@@ -45,17 +47,43 @@
 @property (strong, nonatomic) NYTPhotosViewController *photosViewController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *navigationBarHeight;
 
-@property (atomic) long long minMessageTimestamp;
-
-@property (strong, nonatomic) NSArray<SBDBaseMessage *> *dumpedMessages;
-@property (atomic) BOOL cachedMessage;
+@property (strong, nonatomic, nullable) MessageCollection *messageCollection;
 
 @end
 
 @implementation OpenChannelChattingViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self != nil) {
+        _delegateIdentifier = [[NSUUID UUID] UUIDString];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self configureView];
+    
+    [SBDMain addChannelDelegate:self identifier:self.delegateIdentifier];
+    [ConnectionManager addConnectionObserver:self];
+    
+    if ([SBDMain getConnectState] == SBDWebSocketClosed) {
+        [ConnectionManager loginWithCompletionHandler:^(SBDUser * _Nullable user, NSError * _Nullable error) {
+            if (error != nil) {
+                return;
+            }
+        }];
+    }
+    else {
+        self.messageCollection.delegate = self;
+        self.isLoading = YES;
+        [self.messageCollection loadPreviousMessagesFromNow];
+    }
+}
+
+- (void)configureView {
     // Do any additional setup after loading the view from its nib.
     UILabel *titleView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 64, self.view.frame.size.width - 100)];
     titleView.attributedText = [Utils generateNavigationTitle:[NSString stringWithFormat:@"%@(%ld)", self.channel.name, (long)self.channel.participantCount] subTitle:nil];
@@ -67,7 +95,7 @@
     [titleView addGestureRecognizer:titleTapRecognizer];
     
     self.navItem.titleView = titleView;
-
+    
     UIBarButtonItem *negativeLeftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     negativeLeftSpacer.width = -2;
     UIBarButtonItem *negativeRightSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -100,58 +128,19 @@
     
     self.imageViewerLoadingViewNavItem.leftBarButtonItems = @[negativeLeftSpacerForImageViewerLoading, leftCloseItemForImageViewerLoading];
     
-    self.delegateIdentifier = self.description;
-    [SBDMain addChannelDelegate:self identifier:self.delegateIdentifier];
-    [ConnectionManager addConnectionObserver:self];
-    
     self.hasNext = YES;
     self.isLoading = NO;
     
+    self.chattingView.delegate = self;
+    [self.chattingView configureChattingViewWithChannel:self.channel];
     [self.chattingView.fileAttachButton addTarget:self action:@selector(sendFileMessage) forControlEvents:UIControlEventTouchUpInside];
     [self.chattingView.sendButton addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
-    
-    self.dumpedMessages = [Utils loadMessagesInChannel:self.channel.channelUrl];
-    
-    [self.chattingView configureChattingViewWithChannel:self.channel];
-    self.chattingView.delegate = self;
-    self.minMessageTimestamp = LLONG_MAX;
-    self.cachedMessage = NO;
-    
-    if (self.dumpedMessages.count > 0) {
-        [self.chattingView.messages addObjectsFromArray:self.dumpedMessages];
-        
-        [self.chattingView.chattingTableView reloadData];
-        [self.chattingView.chattingTableView layoutIfNeeded];
-        
-        CGFloat viewHeight = [[UIScreen mainScreen] bounds].size.height - self.navigationBarHeight.constant - self.chattingView.inputContainerViewHeight.constant - 10;
-        CGSize contentSize = self.chattingView.chattingTableView.contentSize;
-        
-        if (contentSize.height > viewHeight) {
-            CGPoint newContentOffset = CGPointMake(0, contentSize.height - viewHeight);
-            [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
-        }
-        self.cachedMessage = YES;
-    }
-    
-    if ([SBDMain getConnectState] == SBDWebSocketClosed) {
-        [ConnectionManager loginWithCompletionHandler:^(SBDUser * _Nullable user, NSError * _Nullable error) {
-            if (error != nil) {
-                return;
-            }
-        }];
-    }
-    else {
-        [self loadPreviousMessage:YES];
-    }
 }
 
 - (void)dealloc {
     [ConnectionManager removeConnectionObserver:self];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [Utils dumpMessages:self.chattingView.messages resendableMessages:self.chattingView.resendableMessages resendableFileData:self.chattingView.resendableFileData preSendMessages:self.chattingView.preSendMessages channelUrl:self.channel.channelUrl];
+    [SBDMain removeChannelDelegateForIdentifier:self.delegateIdentifier];
+    self.messageCollection.delegate = nil;
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification {
@@ -176,15 +165,10 @@
     });
 }
 
-- (void)applicationWillTerminate:(NSNotification *)notification {
-    [Utils dumpMessages:self.chattingView.messages resendableMessages:self.chattingView.resendableMessages resendableFileData:self.chattingView.resendableFileData preSendMessages:self.chattingView.preSendMessages channelUrl:self.channel.channelUrl];
-}
-
 - (void)close {
+    __weak OpenChannelChattingViewController *weakSelf = self;
     [self.channel exitChannelWithCompletionHandler:^(SBDError * _Nullable error) {
-        [self dismissViewControllerAnimated:NO completion:^{
-            
-        }];
+        [weakSelf dismissViewControllerAnimated:NO completion:nil];
     }];
 }
 
@@ -210,115 +194,6 @@
     [vc addAction:closeAction];
     
     [self presentViewController:vc animated:YES completion:nil];
-}
-
-- (void)loadPreviousMessage:(BOOL)initial {
-    long long timestamp = 0;
-    if (initial) {
-        self.hasNext = YES;
-        timestamp = LLONG_MAX;
-    }
-    else {
-        timestamp = self.minMessageTimestamp;
-    }
-    
-    if (self.hasNext == NO) {
-        return;
-    }
-    
-    if (self.isLoading) {
-        return;
-    }
-    
-    self.isLoading = YES;
-    
-    [self.channel getPreviousMessagesByTimestamp:timestamp limit:30 reverse:!initial messageType:SBDMessageTypeFilterAll customType:@"" completionHandler:^(NSArray<SBDBaseMessage *> * _Nullable messages, SBDError * _Nullable error) {
-        if (error != nil) {
-            self.isLoading = NO;
-            
-            return;
-        }
-        
-        self.cachedMessage = NO;
-        
-        if (messages.count == 0) {
-            self.hasNext = NO;
-        }
-        
-        if (initial) {
-            [self.chattingView.messages removeAllObjects];
-            
-            for (SBDBaseMessage *message in messages) {
-                [self.chattingView.messages addObject:message];
-                
-                if (self.minMessageTimestamp > message.createdAt) {
-                    self.minMessageTimestamp = message.createdAt;
-                }
-            }
-            
-            NSArray *resendableMessagesKeys = [self.chattingView.resendableMessages allKeys];
-            for (NSString *key in resendableMessagesKeys) {
-                [self.chattingView.messages addObject:self.chattingView.resendableMessages[key]];
-            }
-            
-            NSArray *preSendMessagesKeys = [self.chattingView.preSendMessages allKeys];
-            for (NSString *key in preSendMessagesKeys) {
-                [self.chattingView.messages addObject:self.chattingView.preSendMessages[key]];
-            }
-            
-            self.chattingView.initialLoading = YES;
-            
-            if (messages.count > 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.chattingView.chattingTableView reloadData];
-                    [self.chattingView.chattingTableView layoutIfNeeded];
-                    
-                    CGFloat viewHeight;
-                    if (self.keyboardShown) {
-                        viewHeight = self.chattingView.chattingTableView.frame.size.height - 10;
-                    }
-                    else {
-                        viewHeight = [[UIScreen mainScreen] bounds].size.height - self.navigationBarHeight.constant - self.chattingView.inputContainerViewHeight.constant - 10;
-                    }
-                    
-                    CGSize contentSize = self.chattingView.chattingTableView.contentSize;
-                    
-                    if (contentSize.height > viewHeight) {
-                        CGPoint newContentOffset = CGPointMake(0, contentSize.height - viewHeight);
-                        [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
-                    }
-                });
-            }
-            
-            self.chattingView.initialLoading = NO;
-            self.isLoading = NO;
-        }
-        else {
-            if (messages.count > 0) {
-                for (SBDBaseMessage *message in messages) {
-                    [self.chattingView.messages insertObject:message atIndex:0];
-                    
-                    if (self.minMessageTimestamp > message.createdAt) {
-                        self.minMessageTimestamp = message.createdAt;
-                    }
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    CGSize contentSizeBefore = self.chattingView.chattingTableView.contentSize;
-                    
-                    [self.chattingView.chattingTableView reloadData];
-                    [self.chattingView.chattingTableView layoutIfNeeded];
-                    
-                    CGSize contentSizeAfter = self.chattingView.chattingTableView.contentSize;
-                    
-                    CGPoint newContentOffset = CGPointMake(0, contentSizeAfter.height - contentSizeBefore.height);
-                    [self.chattingView.chattingTableView setContentOffset:newContentOffset animated:NO];
-                });
-            }
-            
-            self.isLoading = NO;
-        }
-    }];
 }
 
 - (void)sendUrlPreview:(NSURL * _Nonnull)url message:(NSString * _Nonnull)message tempModel:(OutgoingGeneralUrlPreviewTempModel * _Nonnull)aTempModel {
@@ -490,13 +365,7 @@
                         return;
                     }
                     
-                    [self.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:tempModel] withObject:userMessage];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.chattingView.chattingTableView reloadData];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [self.chattingView scrollToBottomWithForce:YES];
-                        });
-                    });
+                    [self.chattingView replaceMessageFrom:aTempModel to:userMessage messageCollection:self.messageCollection completionHandler:nil];
                 }];
             }
             else {
@@ -524,24 +393,17 @@
                 return;
             }
             
-            if (preSendMessage != nil) {
-                [self.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:preSendMessage] withObject:userMessage];
-            }
-            
-            [self.chattingView.chattingTableView reloadData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.chattingView scrollToBottomWithForce:YES];
-            });
+            [self.chattingView replaceMessageFrom:preSendMessage
+                                               to:userMessage
+                                messageCollection:self.messageCollection
+                                completionHandler:nil];
         });
     }];
-    [self.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:replacement] withObject:preSendMessage];
     self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.chattingView.chattingTableView reloadData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.chattingView scrollToBottomWithForce:YES];
-        });
-    });
+    [self.chattingView replaceMessageFrom:replacement
+                                       to:preSendMessage
+                        messageCollection:self.messageCollection
+                        completionHandler:nil];
 }
 
 - (void)sendMessage {
@@ -564,13 +426,10 @@
                 tempModel.createdAt = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
                 tempModel.message = message;
                 
-                [self.chattingView.messages addObject:tempModel];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.chattingView.chattingTableView reloadData];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.chattingView scrollToBottomWithForce:YES];
-                    });
-                });
+                [self.chattingView updateMessages:@[tempModel]
+                                messageCollection:self.messageCollection
+                                     changeAction:ChangeLogActionNew
+                                completionHandler:nil];
                 
                 // Send preview;
                 [self sendUrlPreview:url message:message tempModel:tempModel];
@@ -595,42 +454,18 @@
                     return;
                 }
                 
-                NSIndexPath *index = [NSIndexPath indexPathForRow:[self.chattingView.messages indexOfObject:preSendMessage] inSection:0];
-                [self.chattingView.chattingTableView beginUpdates];
-                if (preSendMessage != nil) {
-                    [self.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:preSendMessage] withObject:userMessage];
-                }
-                [UIView setAnimationsEnabled:NO];
-                
-                [self.chattingView.chattingTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
-                [UIView setAnimationsEnabled:YES];
-                [self.chattingView.chattingTableView endUpdates];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.chattingView scrollToBottomWithForce:YES];
-                });
+                [self.chattingView replaceMessageFrom:preSendMessage
+                                                   to:userMessage
+                                    messageCollection:self.messageCollection
+                                    completionHandler:nil];
             });
         }];
         
         self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.chattingView.preSendMessages[preSendMessage.requestId] == nil) {
-                return;
-            }
-            [self.chattingView.chattingTableView beginUpdates];
-            [self.chattingView.messages addObject:preSendMessage];
-            
-            [UIView setAnimationsEnabled:NO];
-            
-            [self.chattingView.chattingTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.chattingView.messages indexOfObject:preSendMessage] inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            
-            [UIView setAnimationsEnabled:YES];
-            [self.chattingView.chattingTableView endUpdates];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.chattingView scrollToBottomWithForce:YES];
-                self.chattingView.sendButton.enabled = YES;
-            });
-        });
+        __weak OpenChannelChattingViewController *weakSelf = self;
+        [self.chattingView updateMessages:@[preSendMessage] messageCollection:self.messageCollection changeAction:ChangeLogActionNew completionHandler:^{
+            weakSelf.chattingView.sendButton.enabled = YES;
+        }];
     }
 }
 
@@ -664,10 +499,46 @@
     }
 }
 
+#pragma mark - Message Manager
+- (MessageCollection *)messageCollection {
+    if (_messageCollection == nil) {
+        _messageCollection = [self createMessageCollection];
+    }
+    return _messageCollection;
+}
+
+- (MessageCollection *)createMessageCollection {
+    NSDictionary *filter = @{MessageCollectionFilterKeyLimit:@(30)};
+    MessageCollection *collection = [MessageManager createMessageCollectionWithChannelUrl:self.channel.channelUrl filter:filter];
+    return collection;
+}
+
+#pragma mark - Message Collection Delegate
+- (void)messageCollection:(MessageCollection *)messageCollection
+          itemsAreUpdated:(NSArray<SBDBaseMessage *> *)updatedMessages
+                   action:(ChangeLogAction)action
+                    error:(NSError *)error {
+    self.isLoading = NO;
+    if (self.messageCollection != messageCollection) {
+        return;
+    }
+    
+    if (error != nil) {
+        return;
+    }
+    
+    if (updatedMessages == nil || updatedMessages.count == 0) {
+        return;
+    }
+    
+    [self.chattingView updateMessages:updatedMessages
+                    messageCollection:self.messageCollection
+                         changeAction:action
+                    completionHandler:nil];
+}
+
 #pragma mark - Connection Manager Delegate
 - (void)didConnect:(BOOL)isReconnection {
-    [self loadPreviousMessage:YES];
-    
     [self.channel refreshWithCompletionHandler:^(SBDError * _Nullable error) {
         if (error == nil) {
             if (self.navItem.titleView != nil && [self.navItem.titleView isKindOfClass:[UILabel class]]) {
@@ -707,70 +578,6 @@
 }
 
 #pragma mark - SBDChannelDelegate
-
-- (void)channel:(SBDBaseChannel * _Nonnull)sender didReceiveMessage:(SBDBaseMessage * _Nonnull)message {
-    if (sender == self.channel) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIView setAnimationsEnabled:NO];
-            [self.chattingView.messages addObject:message];
-            [self.chattingView.chattingTableView reloadData];
-            [UIView setAnimationsEnabled:YES];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.chattingView scrollToBottomWithForce:NO];
-            });
-        });
-    }
-}
-
-- (void)channelDidUpdateReadReceipt:(SBDGroupChannel * _Nonnull)sender {
-    
-}
-
-- (void)channelDidUpdateTypingStatus:(SBDGroupChannel * _Nonnull)sender {
-    
-}
-
-- (void)channel:(SBDGroupChannel * _Nonnull)sender userDidJoin:(SBDUser * _Nonnull)user {
-    
-}
-
-- (void)channel:(SBDGroupChannel * _Nonnull)sender userDidLeave:(SBDUser * _Nonnull)user {
-    
-}
-
-- (void)channel:(SBDOpenChannel * _Nonnull)sender userDidEnter:(SBDUser * _Nonnull)user {
-    
-}
-
-- (void)channel:(SBDOpenChannel * _Nonnull)sender userDidExit:(SBDUser * _Nonnull)user {
-    
-}
-
-- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasMuted:(SBDUser * _Nonnull)user {
-    
-}
-
-- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasUnmuted:(SBDUser * _Nonnull)user {
-    
-}
-
-- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasBanned:(SBDUser * _Nonnull)user {
-    
-}
-
-- (void)channel:(SBDOpenChannel * _Nonnull)sender userWasUnbanned:(SBDUser * _Nonnull)user {
-    
-}
-
-- (void)channelWasFrozen:(SBDOpenChannel * _Nonnull)sender {
-    
-}
-
-- (void)channelWasUnfrozen:(SBDOpenChannel * _Nonnull)sender {
-    
-}
-
 - (void)channelWasChanged:(SBDBaseChannel * _Nonnull)sender {
     if (sender == self.channel) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -790,27 +597,10 @@
     });
 }
 
-- (void)channel:(SBDBaseChannel * _Nonnull)sender messageWasDeleted:(long long)messageId {
-    if (sender == self.channel) {
-        for (SBDBaseMessage *message in self.chattingView.messages) {
-            if (message.messageId == messageId) {
-                [self.chattingView.messages removeObject:message];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.chattingView.chattingTableView reloadData];
-                });
-                break;
-            }
-        }
-    }
-}
-
 #pragma mark - ChattingViewDelegate
 - (void)loadMoreMessage:(UIView *)view {
-    if (self.cachedMessage) {
-        return;
-    }
-    
-    [self loadPreviousMessage:NO];
+    self.isLoading = YES;
+    [self.messageCollection loadPreviousMessagesFromReferenceMessageId:self.chattingView.messages.firstObject.messageId];
 }
 
 - (void)startTyping:(UIView *)view {
@@ -1135,15 +925,11 @@
                     tempModel.createdAt = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
                     tempModel.message = resendableUserMessage.message;
                     
-                    [self.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:resendableUserMessage] withObject:tempModel];
                     [self.chattingView.resendableMessages removeObjectForKey:resendableUserMessage.requestId];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.chattingView.chattingTableView reloadData];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [self.chattingView scrollToBottomWithForce:YES];
-                        });
-                    });
+                    [self.chattingView replaceMessageFrom:resendableUserMessage
+                                                       to:tempModel
+                                        messageCollection:self.messageCollection
+                                        completionHandler:nil];
                     
                     // Send preview;
                     [self sendUrlPreview:url message:resendableUserMessage.message tempModel:tempModel];
@@ -1167,23 +953,19 @@
                         return;
                     }
                     
-                    if (preSendMessage != nil) {
-                        [self.chattingView.messages removeObject:preSendMessage];
-                        [self.chattingView.messages addObject:userMessage];
-                    }
-                    [self.chattingView.chattingTableView reloadData];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.chattingView scrollToBottomWithForce:YES];
-                    });
+                    [self.chattingView replaceMessageFrom:preSendMessage
+                                                       to:userMessage
+                                        messageCollection:self.messageCollection
+                                        completionHandler:nil];
                 });
             }];
-            [self.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:resendableUserMessage] withObject:preSendMessage];
+            
             self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
             [self.chattingView.resendableMessages removeObjectForKey:resendableUserMessage.requestId];
-            [self.chattingView.chattingTableView reloadData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.chattingView scrollToBottomWithForce:YES];
-            });
+            [self.chattingView replaceMessageFrom:resendableUserMessage
+                                               to:preSendMessage
+                                messageCollection:self.messageCollection
+                                completionHandler:nil];
         }
         else if ([message isKindOfClass:[SBDFileMessage class]]) {
             __block SBDFileMessage *resendableFileMessage = (SBDFileMessage *)message;
@@ -1210,26 +992,20 @@
                         return;
                     }
                     
-                    if (preSendMessage != nil) {
-                        [self.chattingView.messages removeObject:preSendMessage];
-                        [self.chattingView.messages addObject:fileMessage];
-                    }
-                    
-                    [self.chattingView.chattingTableView reloadData];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.chattingView scrollToBottomWithForce:YES];
-                    });
+                    [self.chattingView replaceMessageFrom:preSendMessage
+                                                       to:fileMessage
+                                        messageCollection:self.messageCollection
+                                        completionHandler:nil];
                 });
             }];
-            [self.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:resendableFileMessage] withObject:preSendMessage];
             self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
             self.chattingView.preSendFileData[preSendMessage.requestId] = self.chattingView.resendableFileData[resendableFileMessage.requestId];
             [self.chattingView.resendableMessages removeObjectForKey:resendableFileMessage.requestId];
             [self.chattingView.resendableFileData removeObjectForKey:resendableFileMessage.requestId];
-            [self.chattingView.chattingTableView reloadData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.chattingView scrollToBottomWithForce:YES];
-            });
+            [self.chattingView replaceMessageFrom:resendableFileMessage
+                                               to:preSendMessage
+                                messageCollection:self.messageCollection
+                                completionHandler:nil];
         }
     }];
     
@@ -1257,10 +1033,10 @@
             [self.chattingView.resendableMessages removeObjectForKey:requestId];
         }
         
-        [self.chattingView.messages removeObject:message];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.chattingView.chattingTableView reloadData];
-        });
+        [self.chattingView updateMessages:@[message]
+                        messageCollection:self.messageCollection
+                             changeAction:ChangeLogActionDeleted
+                        completionHandler:nil];
     }];
     
     [vc addAction:closeAction];
@@ -1324,31 +1100,24 @@
                                 }
                                 
                                 if (fileMessage != nil) {
-                                    [strongSelf.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
-                                    [strongSelf.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
-                                    [strongSelf.chattingView.preSendMessages removeObjectForKey:fileMessage.requestId];
-                                    [strongSelf.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:preSendMessage] withObject:fileMessage];
-                                    
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        [strongSelf.chattingView.chattingTableView reloadData];
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [strongSelf.chattingView scrollToBottomWithForce:YES];
-                                        });
-                                    });
+                                    [self.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
+                                    [self.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
+                                    [self.chattingView.preSendMessages removeObjectForKey:fileMessage.requestId];
+                                    [self.chattingView replaceMessageFrom:preSendMessage
+                                                                       to:fileMessage
+                                                        messageCollection:self.messageCollection
+                                                        completionHandler:nil];
                                 }
                             });
                         }];
                         
-                        strongSelf.chattingView.preSendFileData[preSendMessage.requestId] = @{
-                                                                                              @"data": imageData,
-                                                                                              @"type": mimeType
-                                                                                              };
-                        strongSelf.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
-                        [strongSelf.chattingView.messages addObject:preSendMessage];
-                        [strongSelf.chattingView.chattingTableView reloadData];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [strongSelf.chattingView scrollToBottomWithForce:YES];
-                        });
+                        self.chattingView.preSendFileData[preSendMessage.requestId] = @{@"data": imageData,
+                                                                                        @"type": mimeType};
+                        self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
+                        [self.chattingView updateMessages:@[preSendMessage]
+                                        messageCollection:self.messageCollection
+                                             changeAction:ChangeLogActionNew
+                                        completionHandler:nil];
                     }
                 }];
             }
@@ -1383,31 +1152,24 @@
                                 }
                                 
                                 if (fileMessage != nil) {
-                                    [strongSelf.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
-                                    [strongSelf.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
-                                    [strongSelf.chattingView.preSendMessages removeObjectForKey:fileMessage.requestId];
-                                    [strongSelf.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:preSendMessage] withObject:fileMessage];
-                                    
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        [strongSelf.chattingView.chattingTableView reloadData];
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [strongSelf.chattingView scrollToBottomWithForce:YES];
-                                        });
-                                    });
+                                    [self.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
+                                    [self.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
+                                    [self.chattingView.preSendMessages removeObjectForKey:fileMessage.requestId];
+                                    [self.chattingView replaceMessageFrom:preSendMessage
+                                                                       to:fileMessage
+                                                        messageCollection:self.messageCollection
+                                                        completionHandler:nil];
                                 }
                             });
                         }];
                         
-                        strongSelf.chattingView.preSendFileData[preSendMessage.requestId] = @{
-                                                                                              @"data": imageData,
-                                                                                              @"type": mimeType
-                                                                                              };
-                        strongSelf.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
-                        [strongSelf.chattingView.messages addObject:preSendMessage];
-                        [strongSelf.chattingView.chattingTableView reloadData];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [strongSelf.chattingView scrollToBottomWithForce:YES];
-                        });
+                        self.chattingView.preSendFileData[preSendMessage.requestId] = @{@"data": imageData,
+                                                                                        @"type": mimeType};
+                        self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
+                        [self.chattingView updateMessages:@[preSendMessage]
+                                        messageCollection:self.messageCollection
+                                             changeAction:ChangeLogActionNew
+                                        completionHandler:nil];
                     }
                 }];
             }
@@ -1447,30 +1209,23 @@
                     }
                     
                     if (fileMessage != nil) {
-                        [strongSelf.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
-                        [strongSelf.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
-                        [strongSelf.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:preSendMessage] withObject:fileMessage];
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [strongSelf.chattingView.chattingTableView reloadData];
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [strongSelf.chattingView scrollToBottomWithForce:YES];
-                            });
-                        });
+                        [self.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
+                        [self.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
+                        [self.chattingView replaceMessageFrom:preSendMessage
+                                                           to:fileMessage
+                                            messageCollection:self.messageCollection
+                                            completionHandler:nil];
                     }
                 });
             }];
             
-            strongSelf.chattingView.preSendFileData[preSendMessage.requestId] = @{
-                                                                                  @"data": videoFileData,
-                                                                                  @"type": mimeType
-                                                                                  };
-            strongSelf.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
-            [strongSelf.chattingView.messages addObject:preSendMessage];
-            [strongSelf.chattingView.chattingTableView reloadData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [strongSelf.chattingView scrollToBottomWithForce:YES];
-            });
+            self.chattingView.preSendFileData[preSendMessage.requestId] = @{@"data": videoFileData,
+                                                                            @"type": mimeType};
+            self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
+            [self.chattingView updateMessages:@[preSendMessage]
+                            messageCollection:self.messageCollection
+                                 changeAction:ChangeLogActionNew
+                            completionHandler:nil];
         }
     }];
 }

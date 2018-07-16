@@ -243,10 +243,6 @@
           messageCollection:(MessageCollection *)messageCollection
           changeAction:(ChangeLogAction)action
      completionHandler:(ChattingViewCompletionHandler)completionHandler {
-    NSArray <ChangeLog <SBDBaseMessage *> *> *changeLogs = [Util changeLogsBetweenOldMessages:self.messages
-                                                                           andUpdatedMessages:messages
-                                                                                       action:action
-                                                                            messageCollection:messageCollection];
     ChattingViewCompletionHandler handler = ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [self scrollToBottomWithForce:YES];
@@ -255,6 +251,17 @@
             }
         });
     };
+    
+    if (action == ChangeLogActionCleared) {
+        [self clearAllMessagesWithCompletionHandler:handler];
+        return;
+    }
+    
+    NSArray <ChangeLog <SBDBaseMessage *> *> *changeLogs = [Util changeLogsBetweenOldMessages:self.messages
+                                                                           andUpdatedMessages:messages
+                                                                                       action:action
+                                                                            messageCollection:messageCollection];
+    
     
     // update ui view
     switch (action) {
@@ -275,19 +282,27 @@
             break;
             
         case ChangeLogActionCleared:
-            [self clearMessagesWithCompletionHandler:handler];
-            break;
-            
         case ChangeLogActionNone:
             break;
     }
-
 }
 
 - (void)replaceMessageFrom:(SBDBaseMessage *)fromMessage
                         to:(SBDBaseMessage *)toMessage
+         messageCollection:(MessageCollection *)messageCollection
          completionHandler:(ChattingViewCompletionHandler)completionHandler {
     NSUInteger index = [self.messages indexOfObject:fromMessage];
+    
+    // insert
+    if (index == NSNotFound) {
+        [self updateMessages:@[toMessage]
+           messageCollection:messageCollection
+                changeAction:ChangeLogActionNew
+           completionHandler:completionHandler];
+        return;
+    }
+    
+    // replace
     ChangeLog <SBDBaseMessage *> *changeLog = [[ChangeLog alloc] initWithItem:toMessage action:ChangeLogActionChanged index:index];
     [self changeChangeLogs:@[changeLog] completionHandler:^{
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -396,7 +411,7 @@
     }
 }
 
-- (void)clearMessagesWithCompletionHandler:(ChattingViewCompletionHandler)completionHandler {
+- (void)clearAllMessagesWithCompletionHandler:(ChattingViewCompletionHandler)completionHandler {
     @synchronized (self.messages) {
         [self.messages removeAllObjects];
         [self performBatchUpdates:^(UITableView * _Nonnull tableView) {

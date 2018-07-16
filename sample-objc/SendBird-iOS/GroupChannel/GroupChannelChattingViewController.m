@@ -51,7 +51,6 @@
  *  new properties with message manager
  */
 @property (strong, nonatomic, nullable) MessageCollection *messageCollection;
-@property (atomic, getter=isFirstLoad) BOOL firstLoad;
 
 @end
 
@@ -72,8 +71,6 @@
 
     [SBDMain addChannelDelegate:self identifier:self.delegateIdentifier];
     [ConnectionManager addConnectionObserver:self];
-    self.chattingView.delegate = self;
-
     
     if ([SBDMain getConnectState] == SBDWebSocketClosed) {
         [ConnectionManager loginWithCompletionHandler:^(SBDUser * _Nullable user, NSError * _Nullable error) {
@@ -83,7 +80,6 @@
         }];
     }
     else {
-        self.firstLoad = YES;
         self.messageCollection.delegate = self;
         self.isLoading = YES;
         [self.messageCollection loadPreviousMessagesFromNow];
@@ -140,10 +136,10 @@
     self.hasNext = YES;
     self.isLoading = NO;
     
+    self.chattingView.delegate = self;
+    [self.chattingView configureChattingViewWithChannel:self.channel];
     [self.chattingView.fileAttachButton addTarget:self action:@selector(sendFileMessage) forControlEvents:UIControlEventTouchUpInside];
     [self.chattingView.sendButton addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
-
-    [self.chattingView configureChattingViewWithChannel:self.channel];
 }
 
 - (void)dealloc {
@@ -372,16 +368,10 @@
                         return;
                     }
 
-                    NSUInteger tempIndex = [self.chattingView.messages indexOfObject:aTempModel];
-                    if (tempIndex != NSNotFound) {
-                        [self.chattingView.messages replaceObjectAtIndex:[self.chattingView.messages indexOfObject:aTempModel] withObject:userMessage];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [self.chattingView.chattingTableView reloadData];
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [self.chattingView scrollToBottomWithForce:YES];
-                            });
-                        });
-                    }
+                    [self.chattingView replaceMessageFrom:aTempModel
+                                                       to:userMessage
+                                        messageCollection:self.messageCollection
+                                        completionHandler:nil];
                 }];
             }
             else {
@@ -448,26 +438,16 @@
                 return;
             }
             
-            if (preSendMessage != nil) {
-                [self.chattingView replaceMessageFrom:preSendMessage
-                                                   to:userMessage
-                                    completionHandler:nil];
-            }
-            else {
-                [self.chattingView updateMessages:@[userMessage]
+            [self.chattingView replaceMessageFrom:preSendMessage
+                                               to:userMessage
                                 messageCollection:self.messageCollection
-                                     changeAction:ChangeLogActionNew
                                 completionHandler:nil];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.chattingView scrollToBottomWithForce:YES];
-            });
         });
     }];
     self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
     [self.chattingView replaceMessageFrom:replacement
                                        to:preSendMessage
+                        messageCollection:self.messageCollection 
                         completionHandler:nil];
 }
 
@@ -521,6 +501,7 @@
                 
                 [self.chattingView replaceMessageFrom:preSendMessage
                                                    to:userMessage
+                                    messageCollection:self.messageCollection
                                     completionHandler:nil];
             });
         }];
@@ -947,7 +928,7 @@
                     tempModel.message = resendableUserMessage.message;
                     
                     __weak GroupChannelChattingViewController *weakSelf = self;
-                    [self.chattingView replaceMessageFrom:tempModel to:resendableUserMessage completionHandler:^{
+                    [self.chattingView replaceMessageFrom:tempModel to:resendableUserMessage messageCollection:self.messageCollection completionHandler:^{
                         __strong GroupChannelChattingViewController *strongSelf = weakSelf;
                         [strongSelf.chattingView.resendableMessages removeObjectForKey:resendableUserMessage.requestId];
                     }];
@@ -974,22 +955,15 @@
                         return;
                     }
                     
-                    if (preSendMessage != nil) {
-                        [self.chattingView replaceMessageFrom:preSendMessage
-                                                           to:userMessage
-                                            completionHandler:nil];
-                    }
-                    else {
-                        [self.chattingView updateMessages:@[userMessage]
+                    [self.chattingView replaceMessageFrom:preSendMessage
+                                                       to:userMessage
                                         messageCollection:self.messageCollection
-                                             changeAction:ChangeLogActionNew
                                         completionHandler:nil];
-                    }
                 });
             }];
             
             __weak GroupChannelChattingViewController *weakSelf = self;
-            [self.chattingView replaceMessageFrom:resendableUserMessage to:preSendMessage completionHandler:^{
+            [self.chattingView replaceMessageFrom:resendableUserMessage to:preSendMessage messageCollection:self.messageCollection completionHandler:^{
                 __strong GroupChannelChattingViewController *strongSelf = weakSelf;
                 strongSelf.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
                 [strongSelf.chattingView.resendableMessages removeObjectForKey:resendableUserMessage.requestId];
@@ -1020,17 +994,15 @@
                         return;
                     }
                     
-                    if (preSendMessage != nil) {
-                        [self.chattingView replaceMessageFrom:preSendMessage to:fileMessage completionHandler:nil];
-                    }
-                    else {
-                        [self.chattingView updateMessages:@[fileMessage] messageCollection:self.messageCollection changeAction:ChangeLogActionNew completionHandler:nil];
-                    }
+                    [self.chattingView replaceMessageFrom:preSendMessage
+                                                       to:fileMessage
+                                        messageCollection:self.messageCollection
+                                        completionHandler:nil];
                 });
             }];
             
             __weak GroupChannelChattingViewController *weakSelf = self;
-            [self.chattingView replaceMessageFrom:resendableFileMessage to:preSendMessage completionHandler:^{
+            [self.chattingView replaceMessageFrom:resendableFileMessage to:preSendMessage messageCollection:self.messageCollection completionHandler:^{
                 __strong GroupChannelChattingViewController *strongSelf = weakSelf;
                 strongSelf.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
                 strongSelf.chattingView.preSendFileData[preSendMessage.requestId] = strongSelf.chattingView.resendableFileData[resendableFileMessage.requestId];
@@ -1130,7 +1102,10 @@
                                     [self.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
                                     [self.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
                                     [self.chattingView.preSendMessages removeObjectForKey:fileMessage.requestId];
-                                    [self.chattingView replaceMessageFrom:preSendMessage to:fileMessage completionHandler:nil];
+                                    [self.chattingView replaceMessageFrom:preSendMessage
+                                                                       to:fileMessage
+                                                        messageCollection:self.messageCollection
+                                                        completionHandler:nil];
                                 }
                             });
                         }];
@@ -1138,7 +1113,10 @@
                         self.chattingView.preSendFileData[preSendMessage.requestId] = @{@"data": imageData,
                                                                                         @"type": mimeType};
                         self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
-                        [self.chattingView updateMessages:@[preSendMessage] messageCollection:self.messageCollection changeAction:ChangeLogActionNew completionHandler:nil];
+                        [self.chattingView updateMessages:@[preSendMessage]
+                                        messageCollection:self.messageCollection
+                                             changeAction:ChangeLogActionNew
+                                        completionHandler:nil];
                     }
                 }];
             }
@@ -1176,7 +1154,10 @@
                                     [self.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
                                     [self.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
                                     [self.chattingView.preSendMessages removeObjectForKey:fileMessage.requestId];
-                                    [self.chattingView replaceMessageFrom:preSendMessage to:fileMessage completionHandler:nil];
+                                    [self.chattingView replaceMessageFrom:preSendMessage
+                                                                       to:fileMessage
+                                                        messageCollection:self.messageCollection
+                                                        completionHandler:nil];
                                 }
                             });
                         }];
@@ -1184,7 +1165,10 @@
                         self.chattingView.preSendFileData[preSendMessage.requestId] = @{@"data": imageData,
                                                                                         @"type": mimeType};
                         self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
-                        [self.chattingView updateMessages:@[preSendMessage] messageCollection:self.messageCollection changeAction:ChangeLogActionNew completionHandler:nil];
+                        [self.chattingView updateMessages:@[preSendMessage]
+                                        messageCollection:self.messageCollection
+                                             changeAction:ChangeLogActionNew
+                                        completionHandler:nil];
                     }
                 }];
             }
@@ -1226,7 +1210,10 @@
                     if (fileMessage != nil) {
                         [self.chattingView.resendableMessages removeObjectForKey:fileMessage.requestId];
                         [self.chattingView.resendableFileData removeObjectForKey:fileMessage.requestId];
-                        [self.chattingView replaceMessageFrom:preSendMessage to:fileMessage completionHandler:nil];
+                        [self.chattingView replaceMessageFrom:preSendMessage
+                                                           to:fileMessage
+                                            messageCollection:self.messageCollection
+                                            completionHandler:nil];
                     }
                 });
             }];
@@ -1234,7 +1221,10 @@
             self.chattingView.preSendFileData[preSendMessage.requestId] = @{@"data": videoFileData,
                                                                             @"type": mimeType};
             self.chattingView.preSendMessages[preSendMessage.requestId] = preSendMessage;
-            [self.chattingView updateMessages:@[preSendMessage] messageCollection:self.messageCollection changeAction:ChangeLogActionNew completionHandler:nil];
+            [self.chattingView updateMessages:@[preSendMessage]
+                            messageCollection:self.messageCollection
+                                 changeAction:ChangeLogActionNew
+                            completionHandler:nil];
         }
     }];
 }
