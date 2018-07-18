@@ -65,7 +65,6 @@
     self.window.rootViewController = launchViewController;
     [self.window makeKeyAndVisible];
     
-    [ChannelManager sharedInstance];
     [ConnectionManager loginWithCompletionHandler:^(SBDUser * _Nullable user, NSError * _Nullable error) {
         if (error != nil) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

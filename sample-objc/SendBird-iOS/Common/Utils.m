@@ -397,4 +397,31 @@
     return [[UIScreen mainScreen] fixedCoordinateSpace].bounds.size.height == 812.0;
 }
 
++ (BOOL)isTopViewController:(UIViewController *)viewController {
+    return (viewController == [self topViewController]);
+}
+
++ (UIViewController *)topViewController {
+    return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
++ (UIViewController *)topViewController:(UIViewController *)rootViewController {
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+    
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    if (presentedViewController.isBeingDismissed) {
+        return rootViewController;
+    }
+    
+    if ([presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)presentedViewController;
+        UIViewController *lastViewController = navigationController.viewControllers.lastObject;
+        return [self topViewController:lastViewController];
+    }
+    
+    return [self topViewController:presentedViewController];
+}
+
 @end

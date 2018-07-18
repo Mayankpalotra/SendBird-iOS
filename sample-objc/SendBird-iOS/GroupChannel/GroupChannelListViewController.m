@@ -247,8 +247,7 @@
         }
 
         SBDGroupChannel *channel = self.channels[indexPath.row];
-        NSLog(@"[TableView] cell url: %@, name: %@, created at: %ld, index: %ld", channel.channelUrl, channel.name, channel.createdAt, indexPath.row);
-        [(GroupChannelListTableViewCell *)cell setModel:self.channels[indexPath.row]];
+        [(GroupChannelListTableViewCell *)cell setModel:channel];
     }
     
     if (self.channels.count > 0 && indexPath.row + 1 == self.channels.count) {
@@ -318,12 +317,12 @@
 
 #pragma mark - Connection Manager Delegate
 - (void)didConnect:(BOOL)isReconnection {
-    [self.queryCollection load];
+    //
 }
 
 #pragma mark - Channel Query Collection Delegate
 - (void)queryCollection:(QueryCollection *)queryCollection
-        itemsAreUpdated:(NSArray <SBDBaseChannel *> *)updatedChannels // inserted, deleted, changed, moved channel
+        itemsAreUpdated:(NSArray <SBDBaseChannel *> *)updatedChannels
                  action:(ChangeLogAction)action
                   error:(NSError *)error {
     if (self.queryCollection != queryCollection) {
@@ -486,13 +485,10 @@
 - (void)clearAllChannelsWithCompletionHandler:(ChattingViewCompletionHandler)completionHandler {
     @synchronized (self.channels) {
         [self.channels removeAllObjects];
-        [self performBatchUpdates:^(UITableView * _Nonnull tableView) {
-            [tableView reloadData];
-        } completion:^(BOOL finished) {
-            if (finished && completionHandler != nil) {
-                completionHandler();
-            }
-        }];
+        [self.tableView reloadData];
+        if (completionHandler != nil) {
+            completionHandler();
+        }
     }
 }
 

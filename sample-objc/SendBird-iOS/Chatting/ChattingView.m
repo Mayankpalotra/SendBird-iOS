@@ -243,17 +243,8 @@
           messageCollection:(MessageCollection *)messageCollection
           changeAction:(ChangeLogAction)action
      completionHandler:(ChattingViewCompletionHandler)completionHandler {
-    ChattingViewCompletionHandler handler = ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self scrollToBottomWithForce:YES];
-            if (completionHandler != nil) {
-                completionHandler ();
-            }
-        });
-    };
-    
     if (action == ChangeLogActionCleared) {
-        [self clearAllMessagesWithCompletionHandler:handler];
+        [self clearAllMessagesWithCompletionHandler:completionHandler];
         return;
     }
     
@@ -266,19 +257,19 @@
     // update ui view
     switch (action) {
         case ChangeLogActionNew:
-            [self insertChangeLogs:changeLogs completionHandler:handler];
+            [self insertChangeLogs:changeLogs completionHandler:completionHandler];
             break;
             
         case ChangeLogActionChanged:
-            [self changeChangeLogs:changeLogs completionHandler:handler];
+            [self changeChangeLogs:changeLogs completionHandler:completionHandler];
             break;
             
         case ChangeLogActionDeleted:
-            [self deleteChangeLogs:changeLogs completionHandler:handler];
+            [self deleteChangeLogs:changeLogs completionHandler:completionHandler];
             break;
             
         case ChangeLogActionMoved:
-            [self moveChangeLogs:changeLogs completionHandler:handler];
+            [self moveChangeLogs:changeLogs completionHandler:completionHandler];
             break;
             
         case ChangeLogActionCleared:
@@ -304,14 +295,7 @@
     
     // replace
     ChangeLog <SBDBaseMessage *> *changeLog = [[ChangeLog alloc] initWithItem:toMessage action:ChangeLogActionChanged index:index];
-    [self changeChangeLogs:@[changeLog] completionHandler:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self scrollToBottomWithForce:YES];
-            if (completionHandler != nil) {
-                completionHandler ();
-            }
-        });
-    }];
+    [self changeChangeLogs:@[changeLog] completionHandler:completionHandler];
 }
 
 #pragma mark - UI Update with Change Log
@@ -490,7 +474,7 @@
         
         if (scrollView.contentOffset.y == 0) {
             if (self.messages.count > 0 && !self.initialLoading) {
-                if (self.delegate) {
+                if (self.delegate && [self.delegate respondsToSelector:@selector(loadMoreMessage:)]) {
                     [self.delegate loadMoreMessage:self];
                 }
             }

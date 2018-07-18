@@ -403,6 +403,7 @@
                    action:(ChangeLogAction)action
                     error:(NSError *)error {
     self.isLoading = NO;
+    self.chattingView.initialLoading = NO;
     if (self.messageCollection != messageCollection) {
         return;
     }
@@ -415,10 +416,13 @@
         return;
     }
     
-    [self.chattingView updateMessages:updatedMessages
-                    messageCollection:self.messageCollection
-                         changeAction:action
-                    completionHandler:nil];
+    __weak GroupChannelChattingViewController *weakSelf = self;
+    [self.chattingView updateMessages:updatedMessages messageCollection:self.messageCollection changeAction:action completionHandler:^{
+        __strong GroupChannelChattingViewController *strongSelf = weakSelf;
+        if ([Utils isTopViewController:strongSelf]) {
+            [strongSelf.channel markAsRead];
+        }
+    }];
 }
 
 #pragma mark - SendBird SDK
@@ -548,6 +552,8 @@
 
 #pragma mark - Connection Manager Delegate
 - (void)didConnect:(BOOL)isReconnection {
+    [self.messageCollection loadPreviousMessagesFromNow];
+    
     [self.channel refreshWithCompletionHandler:^(SBDError * _Nullable error) {
         if (error == nil) {
             if (self.navItem.titleView != nil && [self.navItem.titleView isKindOfClass:[UILabel class]]) {
@@ -649,8 +655,7 @@
 
 #pragma mark - ChattingViewDelegate
 - (void)loadMoreMessage:(UIView *)view {
-    self.isLoading = YES;
-    [self.messageCollection loadPreviousMessagesFromReferenceMessageId:self.chattingView.messages.firstObject.messageId];
+    [self.messageCollection loadPreviousMessages];
 }
 
 - (void)startTyping:(UIView *)view {

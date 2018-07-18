@@ -365,7 +365,7 @@
                         return;
                     }
                     
-                    [self.chattingView replaceMessageFrom:aTempModel to:userMessage messageCollection:self.messageCollection completionHandler:nil];
+                    [self.chattingView replaceMessageFrom:tempModel to:userMessage messageCollection:self.messageCollection completionHandler:nil];
                 }];
             }
             else {
@@ -519,6 +519,7 @@
                    action:(ChangeLogAction)action
                     error:(NSError *)error {
     self.isLoading = NO;
+    self.chattingView.initialLoading = NO;
     if (self.messageCollection != messageCollection) {
         return;
     }
@@ -539,6 +540,8 @@
 
 #pragma mark - Connection Manager Delegate
 - (void)didConnect:(BOOL)isReconnection {
+    [self.messageCollection loadPreviousMessagesFromNow];
+    
     [self.channel refreshWithCompletionHandler:^(SBDError * _Nullable error) {
         if (error == nil) {
             if (self.navItem.titleView != nil && [self.navItem.titleView isKindOfClass:[UILabel class]]) {
@@ -600,7 +603,7 @@
 #pragma mark - ChattingViewDelegate
 - (void)loadMoreMessage:(UIView *)view {
     self.isLoading = YES;
-    [self.messageCollection loadPreviousMessagesFromReferenceMessageId:self.chattingView.messages.firstObject.messageId];
+    [self.messageCollection loadPreviousMessages];
 }
 
 - (void)startTyping:(UIView *)view {

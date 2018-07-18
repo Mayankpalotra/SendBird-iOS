@@ -21,4 +21,6 @@
 + (nullable NSArray<SBDGroupChannel *> *)loadGroupChannels;
 + (nullable UIViewController *)findBestViewController:(UIViewController * _Nonnull)vc;
 + (bool)isIPhoneX;
++ (BOOL)isTopViewController:(nonnull UIViewController *)viewController;
+
 @end

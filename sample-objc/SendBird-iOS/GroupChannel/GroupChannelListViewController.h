@@ -12,6 +12,6 @@
 
 #import "CreateGroupChannelUserListViewController.h"
 
-@interface GroupChannelListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, MGSwipeTableCellDelegate, CreateGroupChannelUserListViewControllerDelegate, SBDChannelDelegate, SBDConnectionDelegate>
+@interface GroupChannelListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, MGSwipeTableCellDelegate, CreateGroupChannelUserListViewControllerDelegate, SBDChannelDelegate>
 
 @end
